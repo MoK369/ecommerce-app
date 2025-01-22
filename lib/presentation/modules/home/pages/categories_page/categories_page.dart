@@ -26,52 +26,56 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoriesPageViewModel, CategoriesPageState>(
-      builder: (context, state) {
-        switch (state) {
-          case OnCategoriesListState():
-            return BlocBuilder<CategoriesViewModel, CategoriesState>(
-              builder: (context, state) {
-                switch (state) {
-                  case CategoriesLoadingState():
-                    return const LoadingStateWidget();
-                  case CategoriesSuccessState():
-                    var categories = state.listOfCategoryData;
-                    return Row(
-                      children: [
-                        CategoriesListSection(
-                          categories: categories,
-                        ),
-                        SizedBox(
-                          width: 24.w,
-                        ),
-                        const InSpecificCategorySection(),
-                        SizedBox(
-                          width: 16.w,
-                        ),
-                      ],
-                    );
-                  case CategoriesErrorState():
-                    return Center(
-                        child: Text(ApiErrorMessage.getErrorMessage(
-                            exception: state.exception)));
-                }
-              },
-            );
-          case OnCategoriesProductsState():
-            return GridView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 191 / 237,
-                  mainAxisSpacing: 16.h,
-                  crossAxisSpacing: 16.w),
-              itemBuilder: (context, index) {
-                return ItemInfoCard();
-              },
-            );
-        }
-      },
+    return RPadding(
+      padding: const EdgeInsets.only(bottom: 10,top: 2),
+      child: BlocBuilder<CategoriesPageViewModel, CategoriesPageState>(
+        builder: (context, state) {
+          switch (state) {
+            case OnCategoriesListState():
+              return BlocBuilder<CategoriesViewModel, CategoriesState>(
+                builder: (context, state) {
+                  switch (state) {
+                    case CategoriesLoadingState():
+                      return const LoadingStateWidget();
+                    case CategoriesSuccessState():
+                      var categories = state.listOfCategoryData;
+                      return Row(
+                        children: [
+                          CategoriesListSection(
+                            categories: categories,
+                          ),
+                          SizedBox(
+                            width: 24.w,
+                          ),
+                          const InSpecificCategorySection(),
+                          SizedBox(
+                            width: 16.w,
+                          ),
+                        ],
+                      );
+                    case CategoriesErrorState():
+                      return Center(
+                          child: Text(ApiErrorMessage.getErrorMessage(
+                              exception: state.exception)));
+                  }
+                },
+              );
+            case OnCategoriesProductsState():
+              return GridView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                itemCount: 10,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 191 / 237,
+                    mainAxisSpacing: 16.h,
+                    crossAxisSpacing: 16.w),
+                itemBuilder: (context, index) {
+                  return ItemInfoCard();
+                },
+              );
+          }
+        },
+      ),
     );
   }
 }

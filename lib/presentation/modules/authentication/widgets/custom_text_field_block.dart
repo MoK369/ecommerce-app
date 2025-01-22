@@ -1,4 +1,4 @@
-import 'package:ecommerce/presentation/core/bases/base_view.dart';
+import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,7 +23,7 @@ class CustomTextFieldBlock extends StatefulWidget {
   State<CustomTextFieldBlock> createState() => _CustomTextFieldBlockState();
 }
 
-class _CustomTextFieldBlockState extends BaseView<CustomTextFieldBlock> {
+class _CustomTextFieldBlockState extends BaseViewStatefulWidget<CustomTextFieldBlock> {
   bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
