@@ -1,4 +1,5 @@
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
+import 'package:ecommerce/presentation/core/widgets/custom_cached_network_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,14 +22,18 @@ class HeadItemCard extends StatelessWidget {
       // Height of the card set with fixed size to make all image same size but it can be deleted without affecting the code
       height: 150.h,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(0),
         child: Stack(
           children: [
             // Background image for the category
-            Image.asset(
-              image,
-              fit: BoxFit.cover,
-              width: double.infinity,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: CustomCachedNetworkImageWidget(
+                imageUrl: image,
+                shimmerWidth: 237,
+                shimmerHeight: 94,
+                boxFit: BoxFit.cover,
+              ),
             ),
             // Overlay with category title and button
             Positioned.fill(
