@@ -11,41 +11,40 @@ class AppBarSection extends BaseViewStatelessWidget
   //final TextEditingController textEditingController = TextEditingController();
   @override
   Widget customBuild(context, theme) {
-    return Container(
-      color: Colors.white,
-      child: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
+    return AppBar(
+      backgroundColor: Colors.white,
+      forceMaterialTransparency: true,
+      leading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.arrow_back),
+        color: AppThemes.lightOnPrimaryColor,
+      ),
+      centerTitle: true,
+      title: Text(
+        "Product Details",
+        style: theme.textTheme.labelMedium!
+            .copyWith(fontSize: 20.sp, color: AppThemes.lightOnPrimaryColor),
+      ),
+      actions: [
+        IconButton(
+          onPressed: onSearchIconTap,
+          icon: Image.asset(
+            "assets/icons/search_icon.png",
+            width: 30.w,
+            height: 30.h,
+          ),
           color: AppThemes.lightOnPrimaryColor,
         ),
-        centerTitle: true,
-        title: Text(
-          "Product Details",
-          style: theme.textTheme.labelMedium!
-              .copyWith(fontSize: 20.sp, color: AppThemes.lightOnPrimaryColor),
+        IconButton(
+          onPressed: () {},
+          icon: Image.asset(
+            "assets/icons/shopping_cart_icon.png",
+            width: 30.w,
+            height: 30.h,
+          ),
+          color: AppThemes.lightOnPrimaryColor,
         ),
-        actions: [
-          IconButton(
-            onPressed: onSearchIconTap,
-            icon: Image.asset(
-              "assets/icons/search_icon.png",
-              width: 30.w,
-              height: 30.h,
-            ),
-            color: AppThemes.lightOnPrimaryColor,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              "assets/icons/shopping_cart_icon.png",
-              width: 30.w,
-              height: 30.h,
-            ),
-            color: AppThemes.lightOnPrimaryColor,
-          ),
-        ],
-      ),
+      ],
     );
   }
 

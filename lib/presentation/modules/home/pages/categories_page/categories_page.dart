@@ -1,5 +1,6 @@
 import 'package:ecommerce/di.dart';
 import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
+import 'package:ecommerce/presentation/core/widgets/custom_pull_down_refresh_indicator.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_state.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
@@ -27,54 +28,65 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return RPadding(
-      padding: const EdgeInsets.only(bottom: 10,top: 2),
-      child: BlocBuilder<CategoriesPageViewModel, CategoriesPageState>(
-        builder: (context, state) {
-          switch (state) {
-            case OnCategoriesListState():
-              return BlocBuilder<CategoriesViewModel, CategoriesState>(
-                builder: (context, state) {
-                  switch (state) {
-                    case CategoriesLoadingState():
-                      return const LoadingStateWidget();
-                    case CategoriesSuccessState():
-                      var categories = state.listOfCategoryData;
-                      return Row(
-                        children: [
-                          CategoriesListSection(
-                            categories: categories,
-                          ),
-                          SizedBox(
-                            width: 24.w,
-                          ),
-                          const InSpecificCategorySection(),
-                          SizedBox(
-                            width: 16.w,
-                          ),
-                        ],
-                      );
-                    case CategoriesErrorState():
-                      return Center(
-                          child: Text(ApiErrorMessage.getErrorMessage(
-                              exception: state.exception)));
-                  }
-                },
-              );
-            case OnCategoriesProductsState():
-              return GridView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 191 / 237,
-                    mainAxisSpacing: 16.h,
-                    crossAxisSpacing: 16.w),
-                itemBuilder: (context, index) {
-                  return ItemInfoCard();
-                },
-              );
-          }
+      padding: const EdgeInsets.only(bottom: 10, top: 2),
+      child: CustomPullDownRefreshIndicator(
+        lottieAnimationPath:
+            "assets/animations/categories_loading_indicator.json",
+        onRefresh: () {
+          categoriesViewModel.loadCategories();
         },
+        child: BlocBuilder<CategoriesPageViewModel, CategoriesPageState>(
+          builder: (context, state) {
+            switch (state) {
+              case OnCategoriesListState():
+                return BlocBuilder<CategoriesViewModel, CategoriesState>(
+                  builder: (context, state) {
+                    switch (state) {
+                      case CategoriesLoadingState():
+                        return const LoadingStateWidget();
+                      case CategoriesSuccessState():
+                        var categories = state.listOfCategoryData;
+                        return Row(
+                          children: [
+                            CategoriesListSection(
+                              categories: categories,
+                            ),
+                            SizedBox(
+                              width: 24.w,
+                            ),
+                            InSpecificCategorySection(),
+                            SizedBox(
+                              width: 16.w,
+                            ),
+                          ],
+                        );
+                      case CategoriesErrorState():
+                        return ListView(
+                          children: [
+                            Center(
+                                child: Text(ApiErrorMessage.getErrorMessage(
+                                    exception: state.exception))),
+                          ],
+                        );
+                    }
+                  },
+                );
+              case OnCategoriesProductsState():
+                return GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  itemCount: 10,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 191 / 237,
+                      mainAxisSpacing: 16.h,
+                      crossAxisSpacing: 16.w),
+                  itemBuilder: (context, index) {
+                    return ItemInfoCard();
+                  },
+                );
+            }
+          },
+        ),
       ),
     );
   }

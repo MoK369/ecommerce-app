@@ -28,7 +28,7 @@ class DisplayingSizeWidget extends BaseViewStatelessWidget {
         width: 50.w,
         height: 50.h,
         padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.only(top: 8),
+        margin: const EdgeInsets.only(top: 8,left: 2,right: 2),
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isSelected ? AppThemes.lightOnPrimaryColor : Colors.white),

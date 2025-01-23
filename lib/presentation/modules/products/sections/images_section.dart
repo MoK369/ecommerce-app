@@ -40,7 +40,7 @@ class ImagesSection extends StatelessWidget {
           );
         },
         options: CarouselOptions(
-          aspectRatio: 4 / 3,
+          aspectRatio: 3 / 2,
           viewportFraction: 1,
           enableInfiniteScroll: false,
         ));

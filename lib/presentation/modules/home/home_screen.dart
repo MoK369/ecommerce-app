@@ -1,4 +1,5 @@
 import 'package:ecommerce/di.dart';
+import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/categories_page.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/categories_page_state.dart';
@@ -10,6 +11,7 @@ import 'package:ecommerce/presentation/modules/home/pages/profile_page/profile_p
 import 'package:ecommerce/presentation/modules/home/widgets/bottom_bar_icon.dart';
 import 'package:ecommerce/presentation/modules/home/widgets/home_screen_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,14 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
   BrandsViewModel brandsViewModel = getIt.get<BrandsViewModel>();
   CategoriesPageViewModel categoriesPageViewModel =
       getIt.get<CategoriesPageViewModel>();
+  DateTime? lastPressed;
 
   @override
   void initState() {
     super.initState();
+    loadHomeScreenData();
+  }
+  void loadHomeScreenData(){
     categoriesViewModel.loadCategories();
     brandsViewModel.loadBrands();
   }
-
   final List<Widget> pages = [
     HomePage(),
     CategoriesPage(),
@@ -42,76 +47,96 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => categoriesViewModel,
-        ),
-        BlocProvider(
-          create: (context) => brandsViewModel,
-        ),
-        BlocProvider(
-          create: (context) => categoriesPageViewModel,
-        )
-      ],
-      child: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: selectedBarItem == 3 ? null : const HomeScreenAppBar(),
-          bottomNavigationBar: ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-            child: BottomNavigationBar(
-                currentIndex: selectedBarItem,
-                onTap: (value) {
-                  setState(() {
-                    if (categoriesPageViewModel.state
-                        is OnCategoriesProductsState) {
-                      categoriesPageViewModel
-                          .changeState(OnCategoriesListState());
-                    }
-                    selectedBarItem = value;
-                    pageController.jumpToPage(selectedBarItem);
-                  });
-                },
-                items: [
-                  BottomNavigationBarItem(
-                      icon: BottomBarIcon(
-                          isIconSelected: selectedBarItem == 0,
-                          iconPath: "assets/icons/home_icon.png"),
-                      label: ""),
-                  BottomNavigationBarItem(
-                      icon: BottomBarIcon(
-                          isIconSelected: selectedBarItem == 1,
-                          iconPath: "assets/icons/categories_icon.png"),
-                      label: ""),
-                  BottomNavigationBarItem(
-                      icon: BottomBarIcon(
-                          isIconSelected: selectedBarItem == 2,
-                          iconPath: "assets/icons/heart_icon.png"),
-                      label: ""),
-                  BottomNavigationBarItem(
-                      icon: BottomBarIcon(
-                          isIconSelected: selectedBarItem == 3,
-                          iconPath: "assets/icons/profile_icon.png"),
-                      label: ""),
-                ]),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        DateTime now = DateTime.now();
+        bool isWarning = (lastPressed == null) ||
+            (now.difference(lastPressed!) > const Duration(seconds: 2));
+        if (isWarning) {
+          lastPressed = DateTime.now();
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Press back again to exit"),
+            margin: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+            duration: Duration(seconds: 2),
+          ));
+          return;
+        }
+        SystemNavigator.pop();
+        lastPressed = null;
+      },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => categoriesViewModel,
           ),
-          body: PageView(
-            controller: pageController,
-            onPageChanged: (value) {
-              setState(() {
-                if (categoriesPageViewModel.state
-                    is OnCategoriesProductsState) {
-                  categoriesPageViewModel.changeState(OnCategoriesListState());
-                }
-                selectedBarItem = value;
-              });
-            },
-            children: pages,
+          BlocProvider(
+            create: (context) => brandsViewModel,
+          ),
+          BlocProvider(
+            create: (context) => categoriesPageViewModel,
+          )
+        ],
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: selectedBarItem == 3 ? null : const HomeScreenAppBar(),
+            bottomNavigationBar: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+              child: BottomNavigationBar(
+                  currentIndex: selectedBarItem,
+                  onTap: (value) {
+                    setState(() {
+                      if (categoriesPageViewModel.state
+                          is OnCategoriesProductsState) {
+                        categoriesPageViewModel
+                            .changeState(OnCategoriesListState());
+                      }
+                      selectedBarItem = value;
+                      pageController.jumpToPage(selectedBarItem);
+                    });
+                  },
+                  items: [
+                    BottomNavigationBarItem(
+                        icon: BottomBarIcon(
+                            isIconSelected: selectedBarItem == 0,
+                            iconPath: "assets/icons/home_icon.png"),
+                        label: ""),
+                    BottomNavigationBarItem(
+                        icon: BottomBarIcon(
+                            isIconSelected: selectedBarItem == 1,
+                            iconPath: "assets/icons/categories_icon.png"),
+                        label: ""),
+                    BottomNavigationBarItem(
+                        icon: BottomBarIcon(
+                            isIconSelected: selectedBarItem == 2,
+                            iconPath: "assets/icons/heart_icon.png"),
+                        label: ""),
+                    BottomNavigationBarItem(
+                        icon: BottomBarIcon(
+                            isIconSelected: selectedBarItem == 3,
+                            iconPath: "assets/icons/profile_icon.png"),
+                        label: ""),
+                  ]),
+            ),
+            body: PageView(
+              controller: pageController,
+              onPageChanged: (value) {
+                setState(() {
+                  if (categoriesPageViewModel.state
+                      is OnCategoriesProductsState) {
+                    categoriesPageViewModel
+                        .changeState(OnCategoriesListState());
+                  }
+                  selectedBarItem = value;
+                });
+              },
+              children: pages,
+            ),
           ),
         ),
       ),

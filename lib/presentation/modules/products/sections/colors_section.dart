@@ -1,26 +1,26 @@
 import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
-import 'package:ecommerce/presentation/modules/products/widgets/displaying_size_widget.dart';
+import 'package:ecommerce/presentation/modules/products/widgets/displaying_colors_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SizesSection extends StatefulWidget {
-  final List<int> productSizes;
-  const SizesSection({super.key, required this.productSizes});
+class ColorsSection extends StatefulWidget {
+  final List<int> colors;
+  const ColorsSection({super.key, required this.colors});
 
   @override
-  State<SizesSection> createState() => _SizesSectionState();
+  State<ColorsSection> createState() => _ColorsSectionState();
 }
 
-class _SizesSectionState extends BaseViewStatefulWidget<SizesSection> {
-  int selectedSizeIndex = 1;
+class _ColorsSectionState extends BaseViewStatefulWidget<ColorsSection> {
+  int selectedColorIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Size",
+          "Color",
           style: theme.textTheme.labelLarge!
               .copyWith(color: AppThemes.lightOnPrimaryColor, fontSize: 18.sp),
         ),
@@ -28,16 +28,15 @@ class _SizesSectionState extends BaseViewStatefulWidget<SizesSection> {
           height: 60.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.zero,
-            itemCount: widget.productSizes.length,
+            itemCount: widget.colors.length,
             itemBuilder: (BuildContext context, int index) {
-              return DisplayingSizeWidget(
-                sizeIndex: index,
-                size: widget.productSizes[index],
-                isSelected: selectedSizeIndex == index,
-                onSizeTap: (index) {
+              return DisplayingColorsWidget(
+                index: index,
+                color: widget.colors[index],
+                isSelected: selectedColorIndex == index,
+                onColorTap: (index) {
                   setState(() {
-                    selectedSizeIndex = index;
+                    selectedColorIndex = index;
                   });
                 },
               );
