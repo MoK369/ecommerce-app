@@ -6,16 +6,18 @@ import 'package:shimmer/shimmer.dart';
 class CustomCachedNetworkImageWidget extends StatelessWidget {
   final String imageUrl;
   final double shimmerWidth, shimmerHeight;
+  final BoxFit boxFit;
   const CustomCachedNetworkImageWidget(
       {super.key,
       required this.imageUrl,
       required this.shimmerWidth,
-      required this.shimmerHeight});
+      required this.shimmerHeight,
+      this.boxFit = BoxFit.fill});
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      fit: BoxFit.fill,
+      fit: boxFit,
       width: shimmerWidth,
       height: shimmerHeight,
       imageUrl: imageUrl,

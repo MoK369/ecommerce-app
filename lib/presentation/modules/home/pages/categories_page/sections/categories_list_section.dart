@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 
 class CategoriesListSection extends StatefulWidget {
   final List<CategoryData> categories;
-  const CategoriesListSection({super.key, required this.categories});
+  final void Function(CategoryData category) onCategorySelection;
+  const CategoriesListSection(
+      {super.key, required this.categories, required this.onCategorySelection});
 
   @override
   State<CategoriesListSection> createState() => _CategoriesListSectionState();
@@ -25,7 +27,8 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
             // set the border for only 3 sides
             top: BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor),
             left: BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor),
-            bottom: BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor)),
+            bottom:
+                BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor)),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           bottomLeft: Radius.circular(10),
@@ -56,5 +59,6 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
     setState(() {
       selectedIndex = index;
     });
+    widget.onCategorySelection(widget.categories[index]);
   }
 }

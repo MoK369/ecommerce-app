@@ -1,5 +1,6 @@
 import 'package:ecommerce/di.dart';
 import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
+import 'package:ecommerce/domain/models/categories/categories_model.dart';
 import 'package:ecommerce/presentation/core/widgets/custom_pull_down_refresh_indicator.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_state.dart';
@@ -7,7 +8,7 @@ import 'package:ecommerce/presentation/modules/home/manager/categories_view_mode
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/categories_page_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/catgories_page_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/sections/categories_list_section.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/sections/in_specific_category_section.dart';
+import 'package:ecommerce/presentation/modules/home/pages/categories_page/sections/sub_categories_section.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/item_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +26,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   CategoriesPageViewModel categoriesPageViewModel =
       getIt.get<CategoriesPageViewModel>();
 
+  CategoryData? selectedCategoryItem;
   @override
   Widget build(BuildContext context) {
     return RPadding(
@@ -46,15 +48,24 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         return const LoadingStateWidget();
                       case CategoriesSuccessState():
                         var categories = state.listOfCategoryData;
+                        selectedCategoryItem =
+                            selectedCategoryItem ?? categories[0];
                         return Row(
                           children: [
                             CategoriesListSection(
                               categories: categories,
+                              onCategorySelection: (category) {
+                                setState(() {
+                                  selectedCategoryItem = category;
+                                });
+                              },
                             ),
                             SizedBox(
                               width: 24.w,
                             ),
-                            InSpecificCategorySection(),
+                            SubCategoriesSection(
+                              selectedCategoryItem: selectedCategoryItem!,
+                            ),
                             SizedBox(
                               width: 16.w,
                             ),
@@ -81,7 +92,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       mainAxisSpacing: 16.h,
                       crossAxisSpacing: 16.w),
                   itemBuilder: (context, index) {
-                    return ItemInfoCard();
+                    return const ItemInfoCard();
                   },
                 );
             }

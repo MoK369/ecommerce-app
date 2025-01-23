@@ -27,9 +27,13 @@ import 'domain/repositories/categories/categories_repository.dart' as _i785;
 import 'domain/use_cases/brands/get_brands_use_case.dart' as _i876;
 import 'domain/use_cases/categories/get_most_common_categories_use_case.dart'
     as _i82;
+import 'domain/use_cases/subcategories/get_subcategories_use_case.dart'
+    as _i816;
 import 'presentation/modules/home/manager/categories_view_model.dart' as _i256;
 import 'presentation/modules/home/pages/categories_page/manager/catgories_page_view_model.dart'
     as _i11;
+import 'presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart'
+    as _i970;
 import 'presentation/modules/home/pages/home_page/manager/brands_view_model.dart'
     as _i296;
 
@@ -61,6 +65,10 @@ extension GetItInjectableX on _i174.GetIt {
         _i321.CategoriesRepositoryImp(gh<_i332.CategoriesRemoteDataSource>()));
     gh.factory<_i82.GetMostCommonCategoriesUseCase>(() =>
         _i82.GetMostCommonCategoriesUseCase(gh<_i785.CategoriesRepository>()));
+    gh.factory<_i816.GetSubcategoriesUseCase>(
+        () => _i816.GetSubcategoriesUseCase(gh<_i785.CategoriesRepository>()));
+    gh.factory<_i970.SubcategoriesViewModel>(() => _i970.SubcategoriesViewModel(
+        getSubcategoriesUseCase: gh<_i816.GetSubcategoriesUseCase>()));
     gh.singleton<_i256.CategoriesViewModel>(() =>
         _i256.CategoriesViewModel(gh<_i82.GetMostCommonCategoriesUseCase>()));
     return this;
