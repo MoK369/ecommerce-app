@@ -6,6 +6,14 @@ class AppThemes {
   static const Color lightOnPrimaryColor = Color(0xFF004182);
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: lightPrimaryColor,
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: lightOnPrimaryColor,
+        behavior: SnackBarBehavior.floating,
+        contentTextStyle: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            color: lightPrimaryColor)
+    ),
     appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
     textTheme: TextTheme(
       labelSmall: GoogleFonts.poppins(

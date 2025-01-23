@@ -1,4 +1,4 @@
-import 'package:ecommerce/presentation/core/bases/base_view.dart';
+import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/core/validate_functions/validate_functions.dart';
 import 'package:ecommerce/presentation/modules/authentication/widgets/custom_text_field_block.dart';
@@ -12,7 +12,7 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends BaseView<SignUpScreen> {
+class _SignUpScreenState extends BaseViewStatefulWidget<SignUpScreen> {
   final TextEditingController fullNameController = TextEditingController(),
       phoneNumberController = TextEditingController(),
       emailController = TextEditingController(),

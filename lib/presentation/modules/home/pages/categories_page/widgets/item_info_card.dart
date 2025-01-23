@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:ecommerce/presentation/core/bases/base_view.dart';
+import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/heart_button.dart';
@@ -13,7 +13,7 @@ class ItemInfoCard extends StatefulWidget {
   State<ItemInfoCard> createState() => _ItemInfoCardState();
 }
 
-class _ItemInfoCardState extends BaseView<ItemInfoCard> {
+class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
   bool isThereDiscount = true;
   @override
   Widget build(BuildContext context) {

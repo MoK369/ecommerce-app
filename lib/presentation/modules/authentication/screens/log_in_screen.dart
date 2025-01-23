@@ -1,4 +1,4 @@
-import 'package:ecommerce/presentation/core/bases/base_view.dart';
+import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/core/validate_functions/validate_functions.dart';
@@ -13,7 +13,7 @@ class LogInScreen extends StatefulWidget {
   State<LogInScreen> createState() => _LogInScreenState();
 }
 
-class _LogInScreenState extends BaseView<LogInScreen> {
+class _LogInScreenState extends BaseViewStatefulWidget<LogInScreen> {
   final TextEditingController userNameFieldController = TextEditingController(),
       passwordFieldController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
