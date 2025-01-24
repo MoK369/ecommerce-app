@@ -29,6 +29,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   CategoryData? selectedCategoryItem;
   @override
   Widget build(BuildContext context) {
+    debugPrint("selected category: ${selectedCategoryItem?.name}");
     return RPadding(
       padding: const EdgeInsets.only(bottom: 10, top: 2),
       child: CustomPullDownRefreshIndicator(
@@ -54,6 +55,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           children: [
                             CategoriesListSection(
                               categories: categories,
+                              selectedCategoryIndex:
+                                  categories.indexOf(selectedCategoryItem!),
                               onCategorySelection: (category) {
                                 setState(() {
                                   selectedCategoryItem = category;

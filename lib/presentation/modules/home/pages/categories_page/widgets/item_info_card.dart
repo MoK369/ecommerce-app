@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ItemInfoCard extends StatefulWidget {
+
   const ItemInfoCard({super.key});
 
   @override

@@ -24,20 +24,23 @@ class SubCategoriesSection extends StatefulWidget {
 class _SubCategoriesSectionState
     extends BaseViewStatefulWidget<SubCategoriesSection> {
   CategoriesViewModel categoriesViewModel = getIt.get<CategoriesViewModel>();
-
   SubcategoriesViewModel subcategoriesViewModel =
       getIt.get<SubcategoriesViewModel>();
   @override
   void initState() {
     super.initState();
-    subcategoriesViewModel
-        .loadSubcategories(widget.selectedCategoryItem.id ?? "");
+    debugPrint("initState subcategory");
+    if (subcategoriesViewModel.state is! SubcategoriesSuccessState) {
+      subcategoriesViewModel
+          .loadSubcategories(widget.selectedCategoryItem.id ?? "");
+    }
   }
 
   @override
   void didUpdateWidget(covariant SubCategoriesSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedCategoryItem != widget.selectedCategoryItem) {
+      debugPrint("didUpdateWidget subcategory");
       subcategoriesViewModel
           .loadSubcategories(widget.selectedCategoryItem.id ?? "");
     }

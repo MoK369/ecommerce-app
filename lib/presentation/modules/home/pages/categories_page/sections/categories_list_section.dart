@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 
 class CategoriesListSection extends StatefulWidget {
   final List<CategoryData> categories;
+  final int selectedCategoryIndex;
   final void Function(CategoryData category) onCategorySelection;
   const CategoriesListSection(
-      {super.key, required this.categories, required this.onCategorySelection});
+      {super.key,
+      required this.categories,
+      required this.onCategorySelection,
+      this.selectedCategoryIndex = 0});
 
   @override
   State<CategoriesListSection> createState() => _CategoriesListSectionState();
@@ -15,7 +19,22 @@ class CategoriesListSection extends StatefulWidget {
 
 class _CategoriesListSectionState extends State<CategoriesListSection> {
   // Index of the currently selected category
-  int selectedIndex = 0;
+  late int selectedIndex;
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.selectedCategoryIndex;
+  }
+
+  // @override
+  // void didUpdateWidget(covariant CategoriesListSection oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //
+  //   if (oldWidget.selectedIndex != widget.selectedIndex) {
+  //     debugPrint("didUpdateWidget categoryList");
+  //     selectedIndex = widget.selectedIndex;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
