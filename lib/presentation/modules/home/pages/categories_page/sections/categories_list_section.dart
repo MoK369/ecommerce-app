@@ -2,6 +2,7 @@ import 'package:ecommerce/domain/models/categories/categories_model.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/category_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesListSection extends StatefulWidget {
   final List<CategoryData> categories;
@@ -75,9 +76,9 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
 
   // callback function to change the selected index
   onItemClick(int index) {
-    setState(() {
+    //setState(() {
       selectedIndex = index;
-    });
+    //});
     widget.onCategorySelection(widget.categories[index]);
   }
 }
