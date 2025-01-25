@@ -24,4 +24,7 @@ class SubcategoriesViewModel extends Cubit<SubcategoriesState> {
         emit(SubcategoriesErrorState(exception: useCaseResult.exception));
     }
   }
+  void changeState(SubcategoriesState newState){
+    emit(newState);
+  }
 }
