@@ -33,7 +33,8 @@ class _ProductCardState extends BaseViewStatefulWidget<ProductCard> {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(
-            context, DefinedRoutes.productDetailsScreenRouteName);
+            context, DefinedRoutes.productDetailsScreenRouteName,
+            arguments: widget.product);
       },
       child: Container(
         width: 191.w,

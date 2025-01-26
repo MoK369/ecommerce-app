@@ -1,18 +1,18 @@
+import 'package:ecommerce/domain/models/products/products_model.dart';
 import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/app_bar_section.dart';
-import 'package:ecommerce/presentation/modules/product_details/sections/colors_section.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/description_section.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/images_section.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/product_name_and_price_section.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/product_wanted_and_sold_items_section.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/search_page_section.dart';
-import 'package:ecommerce/presentation/modules/product_details/sections/sizes_section.dart';
 import 'package:ecommerce/presentation/modules/product_details/sections/total_price_and_add_to_cart_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  final ProductData productItem;
+  const ProductDetailsScreen({super.key, required this.productItem});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -22,13 +22,6 @@ class _ProductDetailsScreenState
     extends BaseViewStatefulWidget<ProductDetailsScreen> {
   bool isSearchClicked = false;
   final TextEditingController textEditingController = TextEditingController();
-  final String productName = "Nike Air Jordon",
-      productPrice = "3,500",
-      numberOfSoldItems = "3,230 Sold",
-      ratingText = "4.8 (7,500)",
-      descriptionText =
-          "Nike, Inc. is an American multinational corporation that manufactures and sells footwear, apparel, equipment, accessories, and services. It is the world's largest supplier of athletic shoes and apparel. Nike's extensive lineup includes iconic brands such as Air Jordan, Air Force, and Converse. The company aims to deliver innovative products and services to inspire athletes.Nike, Inc. is an American multinational corporation that manufactures and sells footwear, apparel, equipment, accessories, and services. It is the world's largest supplier of athletic shoes and apparel. Nike's extensive lineup includes iconic brands such as Air Jordan, Air Force, and Converse. The company aims to deliver innovative products and services to inspire athletes.  ",
-      totalPrice = "3,500";
   List<int> productSizes = [38, 39, 40, 41, 42];
   List<int> productColors = [0x2F2929, 0xBC3018, 0x0973DD, 0x02B935, 0xFF645A];
   @override
@@ -47,7 +40,9 @@ class _ProductDetailsScreenState
             ),
             body: Column(
               children: [
-                ImagesSection(),
+                ImagesSection(
+                  images: widget.productItem.images ?? [],
+                ),
                 Expanded(
                   child: RPadding(
                     padding: const EdgeInsets.symmetric(
@@ -55,31 +50,31 @@ class _ProductDetailsScreenState
                     child: Column(
                       children: [
                         ProductNameAndPriceSection(
-                            productName: productName,
-                            productPrice: productPrice),
+                            productName: widget.productItem.title ?? "",
+                            productPrice: getProductPrice()),
                         ProductWantedAndSoldItemsSection(
-                          numberOfSoldItems: numberOfSoldItems,
-                          ratingText: ratingText,
+                          productItem: widget.productItem,
                         ),
                         SizedBox(
                           height: 16.h,
                         ),
                         Expanded(
                           child: DescriptionSection(
-                            descriptionText: descriptionText,
+                            descriptionText:
+                                "${widget.productItem.description ?? ""} ",
                             widgetsUnderDescription: [
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              SizesSection(
-                                productSizes: productSizes,
-                              ),
-                              ColorsSection(colors: productColors),
+                              // SizedBox(
+                              //   height: 16.h,
+                              // ),
+                              // SizesSection(
+                              //   productSizes: productSizes,
+                              // ),
+                              // ColorsSection(colors: productColors),
                               SizedBox(
                                 height: 48.h,
                               ),
                               TotalPriceAndAddToCartSection(
-                                totalPrice: totalPrice,
+                                totalPrice: getProductPrice(),
                                 onTap: () {},
                               )
                             ],
@@ -107,5 +102,14 @@ class _ProductDetailsScreenState
       isSearchClicked = !isSearchClicked;
       textEditingController.clear();
     });
+  }
+
+  String getProductPrice() {
+    if (widget.productItem.priceAfterDiscount == null ||
+        widget.productItem.priceAfterDiscount == 0) {
+      return "EGP ${widget.productItem.price ?? ""}";
+    } else {
+      return "EGP ${widget.productItem.priceAfterDiscount ?? ""}";
+    }
   }
 }
