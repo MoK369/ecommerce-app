@@ -69,14 +69,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
                               ),
                               CategoriesListSection(
                                 categories: categories,
-                                selectedCategoryIndex:
-                                    categories.indexOf(selectedCategoryItem!),
+                                selectedCategoryIndex: getCategoryItemIndex(
+                                    categories, selectedCategoryItem!),
                                 onCategorySelection: (category) {
-                                  setState(() {
-                                    subcategoriesViewModel.changeState(
-                                        SubcategoriesLoadingState());
-                                    selectedCategoryItem = category;
-                                  });
+                                  if (selectedCategoryItem != category) {
+                                    setState(() {
+                                      /* we wrote this line because before that the subcategories
+                                    of old category item appears for a while when selecting a new category item*/
+                                      subcategoriesViewModel.changeState(
+                                          SubcategoriesLoadingState());
+                                      selectedCategoryItem = category;
+                                    });
+                                  }
                                 },
                               ),
                               SizedBox(
@@ -123,5 +127,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
         ),
       ),
     );
+  }
+
+  int getCategoryItemIndex(
+      List<CategoryData> categories, CategoryData categoryItem) {
+    int index = 0;
+    for (var category in categories) {
+      if (category.name == categoryItem.name) {
+        return index;
+      } else {
+        index++;
+      }
+    }
+    return -1;
   }
 }

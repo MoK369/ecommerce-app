@@ -26,4 +26,9 @@ class CategoryData {
     this.createdAt,
     this.updatedAt,
   });
+
+  @override
+  String toString() {
+    return name ?? "NO NAME";
+  }
 }

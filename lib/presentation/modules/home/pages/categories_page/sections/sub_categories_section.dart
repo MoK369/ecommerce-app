@@ -78,7 +78,7 @@ class _SubCategoriesSectionState
             builder: (context, state) {
               switch (state) {
                 case SubcategoriesLoadingState():
-                  return const SliverToBoxAdapter(
+                  return const SliverFillRemaining(
                     child: LoadingStateWidget(),
                   );
                 case SubcategoriesSuccessState():
@@ -105,12 +105,12 @@ class _SubCategoriesSectionState
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            childAspectRatio: 0.75,
+                            childAspectRatio: 0.6,
                             mainAxisSpacing: 16.w,
                             crossAxisSpacing: 10.h,
                           ));
                 case SubcategoriesErrorState():
-                  return SliverToBoxAdapter(
+                  return SliverFillRemaining(
                     child: Center(
                       child: Text(ApiErrorMessage.getErrorMessage(
                           exception: state.exception)),

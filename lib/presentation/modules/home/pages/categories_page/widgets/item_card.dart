@@ -26,14 +26,14 @@ class ItemCard extends StatelessWidget {
       },
       overlayColor: WidgetStateProperty.all(Colors.transparent),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           AspectRatio(
             aspectRatio: 1,
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.blue, width: 2)),
+                  border: Border.all(color: Colors.blue, width: 1)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: CustomCachedNetworkImageWidget(
@@ -45,9 +45,14 @@ class ItemCard extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            height: 8.h,
+          ),
           Text(
             subcategoryItem.name ?? "",
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            maxLines: 2,
             style: theme.textTheme.labelSmall!
                 .copyWith(color: const Color(0xFF06004F), fontSize: 14.r),
           )
