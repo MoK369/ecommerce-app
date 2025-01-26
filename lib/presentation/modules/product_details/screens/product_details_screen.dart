@@ -1,13 +1,13 @@
 import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
-import 'package:ecommerce/presentation/modules/products/sections/app_bar_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/colors_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/description_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/images_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/product_name_and_price_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/product_wanted_and_sold_items_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/search_page_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/sizes_section.dart';
-import 'package:ecommerce/presentation/modules/products/sections/total_price_and_add_to_cart_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/app_bar_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/colors_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/description_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/images_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/product_name_and_price_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/product_wanted_and_sold_items_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/search_page_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/sizes_section.dart';
+import 'package:ecommerce/presentation/modules/product_details/sections/total_price_and_add_to_cart_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

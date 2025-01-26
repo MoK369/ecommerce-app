@@ -2,6 +2,7 @@ import 'package:ecommerce/data/models/brands/brands_model_dto.dart';
 import 'package:ecommerce/data/models/categories/categories_model_dto.dart';
 import 'package:ecommerce/data/models/pagination_info/pagination_info_dto.dart';
 import 'package:ecommerce/data/models/subcategories/subcategories_model_dto.dart';
+import 'package:ecommerce/domain/models/products/products_model.dart';
 
 /// results : 22
 /// metadata : {"currentPage":1,"numberOfPages":1,"limit":40}
@@ -9,23 +10,26 @@ import 'package:ecommerce/data/models/subcategories/subcategories_model_dto.dart
 
 class ProductsModelDto {
   ProductsModelDto({
-      this.results, 
-      this.metadata, 
-      this.data,});
+    this.results,
+    this.metadata,
+    this.data,
+  });
 
   ProductsModelDto.fromJson(dynamic json) {
     results = json['results'];
-    metadata = json['metadata'] != null ? PaginationInfoDto.fromJson(json['metadata']) : null;
+    metadata = json['metadata'] != null
+        ? PaginationInfoDto.fromJson(json['metadata'])
+        : null;
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(Data.fromJson(v));
+        data?.add(ProductDataDto.fromJson(v));
       });
     }
   }
   num? results;
   PaginationInfoDto? metadata;
-  List<Data>? data;
+  List<ProductDataDto>? data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -38,7 +42,6 @@ class ProductsModelDto {
     }
     return map;
   }
-
 }
 
 /// sold : 2885
@@ -60,27 +63,28 @@ class ProductsModelDto {
 /// updatedAt : "2025-01-25T21:02:04.299Z"
 /// id : "6428dfa0dc1175abc65ca067"
 
-class Data {
-  Data({
-      this.sold, 
-      this.images, 
-      this.subcategory, 
-      this.ratingsQuantity, 
-      this.title,
-      this.slug, 
-      this.description, 
-      this.quantity, 
-      this.price, 
-      this.priceAfterDiscount, 
-      this.imageCover, 
-      this.category, 
-      this.brand, 
-      this.ratingsAverage, 
-      this.createdAt, 
-      this.updatedAt, 
-      this.id,});
+class ProductDataDto {
+  ProductDataDto({
+    this.sold,
+    this.images,
+    this.subcategory,
+    this.ratingsQuantity,
+    this.title,
+    this.slug,
+    this.description,
+    this.quantity,
+    this.price,
+    this.priceAfterDiscount,
+    this.imageCover,
+    this.category,
+    this.brand,
+    this.ratingsAverage,
+    this.createdAt,
+    this.updatedAt,
+    this.id,
+  });
 
-  Data.fromJson(dynamic json) {
+  ProductDataDto.fromJson(dynamic json) {
     sold = json['sold'];
     images = json['images'] != null ? json['images'].cast<String>() : [];
     if (json['subcategory'] != null) {
@@ -98,7 +102,9 @@ class Data {
     price = json['price'];
     priceAfterDiscount = json['priceAfterDiscount'];
     imageCover = json['imageCover'];
-    category = json['category'] != null ? CategoryDataDto.fromJson(json['category']) : null;
+    category = json['category'] != null
+        ? CategoryDataDto.fromJson(json['category'])
+        : null;
     brand = json['brand'] != null ? BrandDataDto.fromJson(json['brand']) : null;
     ratingsAverage = json['ratingsAverage'];
     createdAt = json['createdAt'];
@@ -150,4 +156,28 @@ class Data {
     return map;
   }
 
+  ProductData convertToProductData() {
+    return ProductData(
+        sold: sold,
+        images: images,
+        subcategory: subcategory
+            ?.map(
+              (subcategoryDto) => subcategoryDto.convertToSubcategoryData(),
+            )
+            .toList(),
+        ratingsQuantity: ratingsQuantity,
+        id: id,
+        title: title,
+        slug: slug,
+        description: description,
+        quantity: quantity,
+        price: price,
+        priceAfterDiscount: priceAfterDiscount,
+        imageCover: imageCover,
+        category: category?.convertToCategoryData(),
+        brand: brand?.convertTotBrandsData(),
+        ratingsAverage: ratingsAverage,
+        createdAt: createdAt,
+        updatedAt: updatedAt);
+  }
 }

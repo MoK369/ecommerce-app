@@ -9,7 +9,7 @@ import 'package:ecommerce/presentation/modules/home/pages/categories_page/manage
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/head_item_card.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/item_card.dart';
+import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/subcategory_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,7 +96,7 @@ class _SubCategoriesSectionState
                       : SliverGrid(
                           delegate: SliverChildBuilderDelegate(
                             childCount: subCategoriesList.length,
-                            (context, index) => ItemCard(
+                            (context, index) => SubcategoryItemCard(
                               categoryImagePath:
                                   widget.selectedCategoryItem.image ?? "",
                               subcategoryItem: subCategoriesList[index],

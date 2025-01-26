@@ -30,7 +30,9 @@ class BrandsSection extends StatelessWidget {
                   return GridView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return BrandCard(brandImage: brands[index].image ?? "");
+                      return BrandCard(
+                        brandItem: brands[index],
+                      );
                     },
                     itemCount: brands.length,
                     gridDelegate:

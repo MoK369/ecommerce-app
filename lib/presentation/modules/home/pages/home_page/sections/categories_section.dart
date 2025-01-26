@@ -22,15 +22,15 @@ class CategoriesSection extends StatelessWidget {
             builder: (context, state) {
               switch (state) {
                 case CategoriesLoadingState():
-                  return  const LoadingStateWidget();
+                  return const LoadingStateWidget();
                 case CategoriesSuccessState():
                   var categories = state.listOfCategoryData;
                   return GridView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return CategoryCard(
-                          categoryImage: categories[index].image ?? "",
-                          categoryTitle: categories[index].name ?? "");
+                        categoryItem: categories[index],
+                      );
                     },
                     itemCount: categories.length,
                     gridDelegate:

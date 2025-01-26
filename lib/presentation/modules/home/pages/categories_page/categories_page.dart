@@ -11,7 +11,6 @@ import 'package:ecommerce/presentation/modules/home/pages/categories_page/manage
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/sections/categories_list_section.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/sections/sub_categories_section.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/item_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,81 +44,57 @@ class _CategoriesPageState extends State<CategoriesPage> {
           onRefresh: () {
             categoriesViewModel.loadCategories();
           },
-          child: BlocBuilder<CategoriesPageViewModel, CategoriesPageState>(
-            buildWhen: (previous, current) {
-              previousStateOfCategoryPage = previous;
-              return true;
-            },
+          child: BlocBuilder<CategoriesViewModel, CategoriesState>(
             builder: (context, state) {
               switch (state) {
-                case OnCategoriesListState():
-                  return BlocBuilder<CategoriesViewModel, CategoriesState>(
-                    builder: (context, state) {
-                      switch (state) {
-                        case CategoriesLoadingState():
-                          return const LoadingStateWidget();
-                        case CategoriesSuccessState():
-                          var categories = state.listOfCategoryData;
-                          selectedCategoryItem =
-                              selectedCategoryItem ?? categories[0];
-                          return Row(
-                            children: [
-                              SizedBox(
-                                width: 16.w,
-                              ),
-                              CategoriesListSection(
-                                categories: categories,
-                                selectedCategoryIndex: getCategoryItemIndex(
-                                    categories, selectedCategoryItem!),
-                                onCategorySelection: (category) {
-                                  if (selectedCategoryItem != category) {
-                                    setState(() {
-                                      /* we wrote this line because before that the subcategories
-                                    of old category item appears for a while when selecting a new category item*/
-                                      subcategoriesViewModel.changeState(
-                                          SubcategoriesLoadingState());
-                                      selectedCategoryItem = category;
-                                    });
-                                  }
-                                },
-                              ),
-                              SizedBox(
-                                width: 24.w,
-                              ),
-                              SubCategoriesSection(
-                                subcategoriesViewModel: subcategoriesViewModel,
-                                selectedCategoryItem: selectedCategoryItem!,
-                                previousStateOfCategoryPage:
-                                    previousStateOfCategoryPage,
-                              ),
-                              SizedBox(
-                                width: 16.w,
-                              ),
-                            ],
-                          );
-                        case CategoriesErrorState():
-                          return ListView(
-                            children: [
-                              Center(
-                                  child: Text(ApiErrorMessage.getErrorMessage(
-                                      exception: state.exception))),
-                            ],
-                          );
-                      }
-                    },
+                case CategoriesLoadingState():
+                  return const LoadingStateWidget();
+                case CategoriesSuccessState():
+                  var categories = state.listOfCategoryData;
+                  selectedCategoryItem =
+                      selectedCategoryItem ?? categories[0];
+                  return Row(
+                    children: [
+                      SizedBox(
+                        width: 16.w,
+                      ),
+                      CategoriesListSection(
+                        categories: categories,
+                        selectedCategoryIndex: getCategoryItemIndex(
+                            categories, selectedCategoryItem!),
+                        onCategorySelection: (category) {
+                          if (selectedCategoryItem != category) {
+                            setState(() {
+                              /* we wrote this line because before that the subcategories
+                                  of old category item appears for a while when selecting a new category item*/
+                              subcategoriesViewModel
+                                  .changeState(SubcategoriesLoadingState());
+                              selectedCategoryItem = category;
+                            });
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        width: 24.w,
+                      ),
+                      SubCategoriesSection(
+                        subcategoriesViewModel: subcategoriesViewModel,
+                        selectedCategoryItem: selectedCategoryItem!,
+                        previousStateOfCategoryPage:
+                            previousStateOfCategoryPage,
+                      ),
+                      SizedBox(
+                        width: 16.w,
+                      ),
+                    ],
                   );
-                case OnCategoriesProductsState():
-                  return GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    itemCount: 10,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 191 / 237,
-                        mainAxisSpacing: 16.h,
-                        crossAxisSpacing: 16.w),
-                    itemBuilder: (context, index) {
-                      return const ItemInfoCard();
-                    },
+                case CategoriesErrorState():
+                  return ListView(
+                    children: [
+                      Center(
+                          child: Text(ApiErrorMessage.getErrorMessage(
+                              exception: state.exception))),
+                    ],
                   );
               }
             },

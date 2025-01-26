@@ -1,15 +1,17 @@
 import 'package:ecommerce/di.dart';
 import 'package:ecommerce/domain/models/subcategories/Subcategories_model.dart';
+import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/core/widgets/custom_cached_network_image_widget.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/categories_page_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/catgories_page_view_model.dart';
+import 'package:ecommerce/presentation/modules/products/screen/products_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ItemCard extends StatelessWidget {
+class SubcategoryItemCard extends StatelessWidget {
   final SubcategoryData subcategoryItem;
   final String categoryImagePath;
-  ItemCard(
+  SubcategoryItemCard(
       {super.key,
       required this.subcategoryItem,
       required this.categoryImagePath});
@@ -22,7 +24,9 @@ class ItemCard extends StatelessWidget {
     ThemeData theme = Theme.of(context);
     return InkWell(
       onTap: () {
-        categoriesPageViewModel.changeState(OnCategoriesProductsState());
+        Navigator.pushNamed(context, DefinedRoutes.productsScreenRouteName,
+            arguments:
+                ProductsScreenParams(subcategoryId: subcategoryItem.id ?? ""));
       },
       overlayColor: WidgetStateProperty.all(Colors.transparent),
       child: Column(

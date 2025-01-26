@@ -1,16 +1,31 @@
+import 'package:ecommerce/presentation/core/bases/base_view_stateless_widget.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
+class HomeScreenAppBar extends BaseViewStatelessWidget
+    implements PreferredSizeWidget {
   final bool? automaticallyImplyLeading;
-  const HomeScreenAppBar({super.key, this.automaticallyImplyLeading});
+  final bool showLeading;
+  const HomeScreenAppBar(
+      {super.key, this.automaticallyImplyLeading, this.showLeading = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget customBuild(BuildContext context, theme) {
     final ThemeData theme = Theme.of(context);
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading ?? false,
+      forceMaterialTransparency: true,
+      leading: showLeading
+          ? IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: AppThemes.lightOnPrimaryColor,
+              ))
+          : null,
       title: Image.asset(
         "assets/icons/app_bar_icon.png",
         height: 55.h,

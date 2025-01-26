@@ -1,21 +1,33 @@
 import 'dart:math';
+import 'package:ecommerce/domain/models/products/products_model.dart';
 import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
+import 'package:ecommerce/presentation/core/widgets/custom_cached_network_image_widget.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/heart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ItemInfoCard extends StatefulWidget {
-
-  const ItemInfoCard({super.key});
+class ProductCard extends StatefulWidget {
+  final ProductData product;
+  const ProductCard({super.key, required this.product});
 
   @override
-  State<ItemInfoCard> createState() => _ItemInfoCardState();
+  State<ProductCard> createState() => _ProductCardState();
 }
 
-class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
+class _ProductCardState extends BaseViewStatefulWidget<ProductCard> {
   bool isThereDiscount = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.product.priceAfterDiscount == 0 ||
+        widget.product.priceAfterDiscount == null) {
+      isThereDiscount = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -35,19 +47,28 @@ class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-                child: Container(
+                child: Stack(
               alignment: Alignment.topRight,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(14),
-                      topRight: Radius.circular(14)),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      "assets/images/shoes_example.jpeg",
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(14),
+                            topRight: Radius.circular(14)),
+                        child: CustomCachedNetworkImageWidget(
+                            imageUrl: widget.product.imageCover ?? "",
+                            boxFit: BoxFit.cover,
+                            shimmerWidth: 1,
+                            shimmerHeight: 1),
+                      ),
                     ),
-                  )),
-              child: const HeartButton(),
+                  ],
+                ),
+                const HeartButton()
+              ],
             )),
             Expanded(
               child: LayoutBuilder(
@@ -64,7 +85,7 @@ class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
                         Text(
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          "Nike Air Jordon",
+                          widget.product.title ?? "",
                           style: theme.textTheme.labelMedium!.copyWith(
                               color: const Color(0xFF06004F),
                               fontSize: 14 * sp),
@@ -72,7 +93,7 @@ class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
                         Text(
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          "Nike shoes flexible for work and ",
+                          widget.product.description ?? "",
                           style: theme.textTheme.labelMedium!.copyWith(
                               color: const Color(0xFF06004F),
                               fontSize: 14 * sp),
@@ -83,7 +104,9 @@ class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
                         Row(
                           children: [
                             Text(
-                              "EGP 1,200",
+                              isThereDiscount
+                                  ? "EGP ${widget.product.priceAfterDiscount ?? ""}"
+                                  : "EGP ${widget.product.price ?? ""}",
                               style: theme.textTheme.labelMedium!.copyWith(
                                   color: const Color(0xFF06004F),
                                   fontSize: 14 * sp),
@@ -94,7 +117,7 @@ class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
                             !isThereDiscount
                                 ? const SizedBox()
                                 : Text(
-                                    "1,200 EGP",
+                                    "${widget.product.price ?? ""} EGP",
                                     style: theme.textTheme.labelMedium!
                                         .copyWith(
                                             decoration:
@@ -115,7 +138,8 @@ class _ItemInfoCardState extends BaseViewStatefulWidget<ItemInfoCard> {
                             RichText(
                                 text: TextSpan(children: [
                               TextSpan(
-                                text: "Review (4.6)",
+                                text:
+                                    "Review (${widget.product.ratingsAverage})",
                                 style: theme.textTheme.labelMedium!.copyWith(
                                     color: const Color(0xFF06004F),
                                     fontSize: 12 * sp),
