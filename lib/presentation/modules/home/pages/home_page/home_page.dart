@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
         loadHomeScreenData();
       },
       child: const SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
             OffersSliderSection(),

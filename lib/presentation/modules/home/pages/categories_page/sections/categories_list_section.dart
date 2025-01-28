@@ -24,7 +24,6 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
   void initState() {
     super.initState();
     selectedIndex = widget.selectedCategoryIndex;
-
   }
 
   // @override
@@ -64,6 +63,7 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
         ),
         child: ListView.builder(
           itemCount: widget.categories.length,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           itemBuilder: (context, index) => CategoryItem(
               index,
               widget.categories[index].name ?? "",
@@ -77,7 +77,7 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
   // callback function to change the selected index
   onItemClick(int index) {
     //setState(() {
-      selectedIndex = index;
+    selectedIndex = index;
     //});
     widget.onCategorySelection(widget.categories[index]);
   }

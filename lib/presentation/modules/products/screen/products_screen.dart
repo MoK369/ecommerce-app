@@ -1,5 +1,5 @@
 import 'package:ecommerce/di.dart';
-import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
+import 'package:ecommerce/presentation/core/api_error_message/api_error_message.dart';
 import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
@@ -37,6 +37,7 @@ class _ProductsScreenState extends BaseViewStatefulWidget<ProductsScreen> {
       create: (context) => productsViewModel,
       child: Scaffold(
         appBar: const HomeScreenAppBar(showLeading: true,),
+        resizeToAvoidBottomInset: false,
         body: RPadding(
           padding: const EdgeInsets.only(bottom: 8),
           child: BlocBuilder<ProductsViewModel, ProductsState>(
@@ -59,6 +60,7 @@ class _ProductsScreenState extends BaseViewStatefulWidget<ProductsScreen> {
                       : GridView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           itemCount: products.length,
+                          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 191 / 237,

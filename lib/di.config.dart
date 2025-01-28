@@ -37,8 +37,6 @@ import 'domain/use_cases/products/get_products_use_case.dart' as _i114;
 import 'domain/use_cases/subcategories/get_subcategories_use_case.dart'
     as _i816;
 import 'presentation/modules/home/manager/categories_view_model.dart' as _i256;
-import 'presentation/modules/home/pages/categories_page/manager/catgories_page_view_model.dart'
-    as _i11;
 import 'presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart'
     as _i970;
 import 'presentation/modules/home/pages/home_page/manager/brands_view_model.dart'
@@ -58,8 +56,6 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     gh.singleton<_i265.ApiManager>(() => _i265.ApiManager());
-    gh.singleton<_i11.CategoriesPageViewModel>(
-        () => _i11.CategoriesPageViewModel());
     gh.factory<_i275.ProductsRemoteDataSource>(() =>
         _i481.ProductsRemoteDataSourceImp(apiManager: gh<_i265.ApiManager>()));
     gh.factory<_i912.ProductsRepository>(() => _i413.ProductsRepositoryImp(

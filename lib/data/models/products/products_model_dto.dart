@@ -175,7 +175,7 @@ class ProductDataDto {
         priceAfterDiscount: priceAfterDiscount,
         imageCover: imageCover,
         category: category?.convertToCategoryData(),
-        brand: brand?.convertTotBrandsData(),
+        brand: brand?.convertTotBrandData(),
         ratingsAverage: ratingsAverage,
         createdAt: createdAt,
         updatedAt: updatedAt);

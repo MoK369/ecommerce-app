@@ -1,11 +1,10 @@
 import 'package:ecommerce/di.dart';
-import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
 import 'package:ecommerce/domain/models/categories/categories_model.dart';
 import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
+import 'package:ecommerce/presentation/core/widgets/error_state_widget.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/categories_page_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/head_item_card.dart';
@@ -16,12 +15,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SubCategoriesSection extends StatefulWidget {
   final SubcategoriesViewModel subcategoriesViewModel;
-  final CategoriesPageState previousStateOfCategoryPage;
   final CategoryData selectedCategoryItem;
   const SubCategoriesSection(
       {super.key,
       required this.selectedCategoryItem,
-      required this.previousStateOfCategoryPage,
       required this.subcategoriesViewModel});
 
   @override
@@ -34,12 +31,8 @@ class _SubCategoriesSectionState
   @override
   void initState() {
     super.initState();
-    debugPrint(widget.previousStateOfCategoryPage.toString());
-    if (widget.previousStateOfCategoryPage is! OnCategoriesProductsState) {
-      debugPrint("initState subcategory");
-      widget.subcategoriesViewModel
-          .loadSubcategories(widget.selectedCategoryItem.id ?? "");
-    }
+    widget.subcategoriesViewModel
+        .loadSubcategories(widget.selectedCategoryItem.id ?? "");
   }
 
   @override
@@ -57,6 +50,7 @@ class _SubCategoriesSectionState
     return Expanded(
       flex: 2,
       child: CustomScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: <Widget>[
           // category title
           SliverToBoxAdapter(
@@ -73,7 +67,7 @@ class _SubCategoriesSectionState
                 image: widget.selectedCategoryItem.image ?? "",
                 navigation: () {}),
           ),
-          // the grid view of the subcategories
+          //the grid view of the subcategories
           BlocBuilder<SubcategoriesViewModel, SubcategoriesState>(
             builder: (context, state) {
               switch (state) {
@@ -111,11 +105,7 @@ class _SubCategoriesSectionState
                           ));
                 case SubcategoriesErrorState():
                   return SliverFillRemaining(
-                    child: Center(
-                      child: Text(ApiErrorMessage.getErrorMessage(
-                          exception: state.exception)),
-                    ),
-                  );
+                      child: ErrorStateWidget(exception: state.exception));
               }
             },
           )

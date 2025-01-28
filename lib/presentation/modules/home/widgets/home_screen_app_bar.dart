@@ -16,6 +16,7 @@ class HomeScreenAppBar extends BaseViewStatelessWidget
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading ?? false,
       forceMaterialTransparency: true,
+      leadingWidth: 35.w,
       leading: showLeading
           ? IconButton(
               onPressed: () {
@@ -28,8 +29,8 @@ class HomeScreenAppBar extends BaseViewStatelessWidget
           : null,
       title: Image.asset(
         "assets/icons/app_bar_icon.png",
-        height: 55.h,
-        width: 55.w,
+        height: 35.h,
+        width: 85.w,
       ),
       bottom: PreferredSize(
           preferredSize: Size(100.w, 60.h),

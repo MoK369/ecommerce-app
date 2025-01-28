@@ -1,12 +1,10 @@
 import 'package:ecommerce/di.dart';
-import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
 import 'package:ecommerce/domain/models/categories/categories_model.dart';
 import 'package:ecommerce/presentation/core/widgets/custom_pull_down_refresh_indicator.dart';
+import 'package:ecommerce/presentation/core/widgets/error_state_widget.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_state.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/categories_page_state.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/catgories_page_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/sections/categories_list_section.dart';
@@ -24,16 +22,12 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   CategoriesViewModel categoriesViewModel = getIt.get<CategoriesViewModel>();
-  CategoriesPageViewModel categoriesPageViewModel =
-      getIt.get<CategoriesPageViewModel>();
   SubcategoriesViewModel subcategoriesViewModel =
       getIt.get<SubcategoriesViewModel>();
 
   CategoryData? selectedCategoryItem;
-  CategoriesPageState previousStateOfCategoryPage = OnCategoriesListState();
   @override
   Widget build(BuildContext context) {
-    debugPrint("selected category: ${selectedCategoryItem?.name}");
     return BlocProvider(
       create: (context) => subcategoriesViewModel,
       child: RPadding(
@@ -51,8 +45,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   return const LoadingStateWidget();
                 case CategoriesSuccessState():
                   var categories = state.listOfCategoryData;
-                  selectedCategoryItem =
-                      selectedCategoryItem ?? categories[0];
+                  selectedCategoryItem = selectedCategoryItem ?? categories[0];
                   return Row(
                     children: [
                       SizedBox(
@@ -80,8 +73,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       SubCategoriesSection(
                         subcategoriesViewModel: subcategoriesViewModel,
                         selectedCategoryItem: selectedCategoryItem!,
-                        previousStateOfCategoryPage:
-                            previousStateOfCategoryPage,
                       ),
                       SizedBox(
                         width: 16.w,
@@ -89,11 +80,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     ],
                   );
                 case CategoriesErrorState():
-                  return ListView(
-                    children: [
-                      Center(
-                          child: Text(ApiErrorMessage.getErrorMessage(
-                              exception: state.exception))),
+                  return CustomScrollView(
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    slivers: [
+                      SliverFillRemaining(
+                          child: ErrorStateWidget(exception: state.exception))
                     ],
                   );
               }

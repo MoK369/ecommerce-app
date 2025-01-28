@@ -4,7 +4,7 @@ import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/core/widgets/custom_cached_network_image_widget.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/widgets/heart_button.dart';
+import 'package:ecommerce/presentation/modules/products/widgets/heart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
