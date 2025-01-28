@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:ecommerce/data/models/authentication/authentication_data_model_dto.dart';
 import 'package:ecommerce/data/models/brands/brands_model_dto.dart';
 import 'package:ecommerce/data/models/products/products_model_dto.dart';
+import 'package:ecommerce/data/models/sign_in_parameters/sign_in_params_data_model.dart';
 import 'package:ecommerce/data/models/subcategories/subcategories_model_dto.dart';
 import 'package:ecommerce/domain/custom_exceptions/server_error_exception.dart';
 import 'package:ecommerce/domain/extension_methods/int_extension_methods/int_extension_methods.dart';
@@ -133,12 +135,35 @@ class ApiManager {
       return resultMap;
     }
   }
+
+  Future<ApiResult<AuthenticationDataModelDto>> signIn(
+      {required SignInParamsDataModel signInParams}) async {
+    try {
+      var response = await _dio.post(baseUrl + EndPoints.signInEndPoint,
+          data: signInParams.toJson());
+      if (response.statusCode?.isSuccessHttpCall() ?? false) {
+        AuthenticationDataModelDto authenticationResponse =
+            AuthenticationDataModelDto.fromJson(response.data);
+        return Success(data: authenticationResponse);
+      } else {
+        ErrorModel errorResponse = ErrorModel.fromJson(response.data);
+        return ServerError(
+            serverErrorException: ServerErrorException(
+                statusMsg: errorResponse.statusMsg ?? "",
+                message:
+                    errorResponse.errorMessage ?? "Something Went Wrong 🤔"));
+      }
+    } on Exception catch (e) {
+      return CodeError(exception: e);
+    }
+  }
 }
 
 class EndPoints {
   static const String allCategoriesEndPoint = "/api/v1/categories";
   static const String allBrandsEndPoint = "/api/v1/brands";
   static const String productsEndPoint = "/api/v1/products";
+  static const String signInEndPoint = "/api/v1/auth/signin";
   static String getSubcategoriesEndPoint(String categoryId) {
     return "/api/v1/categories/$categoryId/subcategories";
   }

@@ -1,12 +1,15 @@
+import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
+
 /// message : "success"
 /// user : {"name":"samy","email":"samy1@gmail.com","role":"user"}
 /// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDIyZGEwZjlkNDk2Nzc4MmEyNTQxYSIsIm5hbWUiOiJzYW15Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MzgwNjkwOTYsImV4cCI6MTc0NTg0NTA5Nn0.9Fm4bOiPHvPOOVzcA9KLNV1cB5bj1UcA3sueYA3eOTk"
 
 class AuthenticationDataModelDto {
   AuthenticationDataModelDto({
-      this.message, 
-      this.user, 
-      this.token,});
+    this.message,
+    this.user,
+    this.token,
+  });
 
   AuthenticationDataModelDto.fromJson(dynamic json) {
     message = json['message'];
@@ -27,6 +30,12 @@ class AuthenticationDataModelDto {
     return map;
   }
 
+  AuthenticationDataModel convertToAuthenticationDataModel() {
+    return AuthenticationDataModel(
+        message: message,
+        user: user?.convertToUserData(),
+        token: token);
+  }
 }
 
 /// name : "samy"
@@ -35,9 +44,10 @@ class AuthenticationDataModelDto {
 
 class UserDataDto {
   UserDataDto({
-      this.name, 
-      this.email, 
-      this.role,});
+    this.name,
+    this.email,
+    this.role,
+  });
 
   UserDataDto.fromJson(dynamic json) {
     name = json['name'];
@@ -56,4 +66,7 @@ class UserDataDto {
     return map;
   }
 
+  UserData convertToUserData() {
+    return UserData(email: email, name: name, role: role);
+  }
 }
