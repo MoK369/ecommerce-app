@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WantedNumberOfItemsWidget extends StatefulWidget {
-  const WantedNumberOfItemsWidget({super.key});
+  final num maxLimit;
+  const WantedNumberOfItemsWidget({super.key,required this.maxLimit});
 
   @override
   State<WantedNumberOfItemsWidget> createState() =>
@@ -46,7 +47,7 @@ class _WantedNumberOfItemsWidgetState
           InkWell(
               onTap: () {
                 setState(() {
-                  if (currentWantedNumber < 1000) currentWantedNumber++;
+                  if (currentWantedNumber < widget.maxLimit) currentWantedNumber++;
                 });
               },
               child: const Icon(

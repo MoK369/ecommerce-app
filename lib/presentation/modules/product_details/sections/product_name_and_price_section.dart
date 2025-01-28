@@ -17,14 +17,19 @@ class ProductNameAndPriceSection extends BaseViewStatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
-          Text(
-            productName,
-            style: theme.textTheme.labelLarge!.copyWith(
-                fontSize: 18.sp, color: AppThemes.lightOnPrimaryColor),
+          Expanded(
+            flex: 5,
+            child: Text(
+              productName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelLarge!.copyWith(
+                  fontSize: 18.sp, color: AppThemes.lightOnPrimaryColor),
+            ),
           ),
           const Spacer(),
           Text(
-            "EGP $productPrice",
+            productPrice,
             style: theme.textTheme.labelLarge!.copyWith(
                 fontSize: 18.sp, color: AppThemes.lightOnPrimaryColor),
           ),

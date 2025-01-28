@@ -1,9 +1,6 @@
 import 'package:ecommerce/di.dart';
-import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/categories_page.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/categories_page_state.dart';
-import 'package:ecommerce/presentation/modules/home/pages/categories_page/manager/catgories_page_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/favorite_page/favorite_page.dart';
 import 'package:ecommerce/presentation/modules/home/pages/home_page/home_page.dart';
 import 'package:ecommerce/presentation/modules/home/pages/home_page/manager/brands_view_model.dart';
@@ -26,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController pageController = PageController(initialPage: 0);
   CategoriesViewModel categoriesViewModel = getIt.get<CategoriesViewModel>();
   BrandsViewModel brandsViewModel = getIt.get<BrandsViewModel>();
-  CategoriesPageViewModel categoriesPageViewModel =
-      getIt.get<CategoriesPageViewModel>();
   DateTime? lastPressed;
 
   @override
@@ -73,9 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocProvider(
             create: (context) => brandsViewModel,
           ),
-          BlocProvider(
-            create: (context) => categoriesPageViewModel,
-          )
         ],
         child: GestureDetector(
           onTap: () {
@@ -91,11 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentIndex: selectedBarItem,
                   onTap: (value) {
                     setState(() {
-                      if (categoriesPageViewModel.state
-                          is OnCategoriesProductsState) {
-                        categoriesPageViewModel
-                            .changeState(OnCategoriesListState());
-                      }
                       selectedBarItem = value;
                       pageController.jumpToPage(selectedBarItem);
                     });
@@ -127,11 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
               controller: pageController,
               onPageChanged: (value) {
                 setState(() {
-                  if (categoriesPageViewModel.state
-                      is OnCategoriesProductsState) {
-                    categoriesPageViewModel
-                        .changeState(OnCategoriesListState());
-                  }
                   selectedBarItem = value;
                 });
               },

@@ -1,4 +1,4 @@
-import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
+import 'package:ecommerce/presentation/core/api_error_message/api_error_message.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
 import 'package:ecommerce/presentation/modules/home/pages/home_page/manager/brands_state.dart';
 import 'package:ecommerce/presentation/modules/home/pages/home_page/manager/brands_view_model.dart';
@@ -30,7 +30,9 @@ class BrandsSection extends StatelessWidget {
                   return GridView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return BrandCard(brandImage: brands[index].image ?? "");
+                      return BrandCard(
+                        brandItem: brands[index],
+                      );
                     },
                     itemCount: brands.length,
                     gridDelegate:

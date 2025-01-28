@@ -17,7 +17,7 @@ class BrandsRemoteDataSourceImp implements BrandsRemoteDataSource {
       case Success<List<BrandDataDto>>():
         var convertedList = apiResult.data.map<BrandData>(
           (brandDtoEl) {
-            return brandDtoEl.convertTotBrandsData();
+            return brandDtoEl.convertTotBrandData();
           },
         ).toList();
         return Success(data: convertedList);

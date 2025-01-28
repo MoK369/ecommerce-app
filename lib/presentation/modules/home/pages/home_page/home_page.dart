@@ -1,4 +1,3 @@
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:ecommerce/di.dart';
 import 'package:ecommerce/presentation/core/widgets/custom_pull_down_refresh_indicator.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
@@ -7,7 +6,6 @@ import 'package:ecommerce/presentation/modules/home/pages/home_page/sections/bra
 import 'package:ecommerce/presentation/modules/home/pages/home_page/sections/categories_section.dart';
 import 'package:ecommerce/presentation/modules/home/pages/home_page/sections/offers_slider_section.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +26,7 @@ class _HomePageState extends State<HomePage> {
         loadHomeScreenData();
       },
       child: const SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
             OffersSliderSection(),
