@@ -1,6 +1,6 @@
 import 'package:ecommerce/domain/models/products/products_model.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
-import 'package:ecommerce/presentation/modules/authentication/screens/log_in_screen.dart';
+import 'package:ecommerce/presentation/modules/authentication/screens/sign_in_screen.dart';
 import 'package:ecommerce/presentation/modules/authentication/screens/sign_up_screen.dart';
 import 'package:ecommerce/presentation/modules/home/home_screen.dart';
 import 'package:ecommerce/presentation/modules/product_details/screens/product_details_screen.dart';
@@ -17,7 +17,7 @@ class RouteGenerator {
         );
       case DefinedRoutes.logInScreenRouteName:
         return MaterialPageRoute(
-          builder: (context) => const LogInScreen(),
+          builder: (context) => const SignInScreen(),
         );
       case DefinedRoutes.signUpScreenRouteName:
         return MaterialPageRoute(

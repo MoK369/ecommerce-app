@@ -6,14 +6,14 @@ import 'package:ecommerce/presentation/modules/authentication/widgets/custom_tex
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LogInScreen extends StatefulWidget {
-  const LogInScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LogInScreenState extends BaseViewStatefulWidget<LogInScreen> {
+class _SignInScreenState extends BaseViewStatefulWidget<SignInScreen> {
   final TextEditingController userNameFieldController = TextEditingController(),
       passwordFieldController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -57,12 +57,13 @@ class _LogInScreenState extends BaseViewStatefulWidget<LogInScreen> {
                 Form(
                   key: formKey,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CustomTextFieldBlock(
                         textFieldController: userNameFieldController,
                         topPadding: 40,
-                        labelText: "User Name",
-                        hintText: "enter your name",
+                        labelText: "Email",
+                        hintText: "enter your email",
                         keyboardType: TextInputType.name,
                         validatorFunc: (inputText) {
                           return ValidateFunctions.validationOfFullName(
@@ -81,50 +82,53 @@ class _LogInScreenState extends BaseViewStatefulWidget<LogInScreen> {
                           }
                         },
                       ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      InkWell(
+                        hoverColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {},
+                        child: Text(
+                          textAlign: TextAlign.end,
+                          "Forgot password",
+                          style: theme.textTheme.labelMedium!
+                              .copyWith(fontSize: 18.sp),
+                        ),
+                      ),
+                      RPadding(
+                        padding: const EdgeInsets.only(top: 56, bottom: 32),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                surfaceTintColor: Colors.transparent,
+                                backgroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(vertical: 20.r)),
+                            onPressed: () {
+                              onLoginClick();
+                            },
+                            child: Text(
+                              "Login",
+                              style: theme.textTheme.labelLarge!.copyWith(
+                                  fontSize: 20.sp,
+                                  color: AppThemes.lightOnPrimaryColor),
+                            )),
+                      ),
+                      InkWell(
+                        hoverColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, DefinedRoutes.signUpScreenRouteName);
+                        },
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          "Don’t have an account? Create Account",
+                          style: theme.textTheme.labelMedium!
+                              .copyWith(fontSize: 14.sp),
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                InkWell(
-                  hoverColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () {},
-                  child: Text(
-                    textAlign: TextAlign.end,
-                    "Forgot password",
-                    style:
-                        theme.textTheme.labelMedium!.copyWith(fontSize: 18.sp),
-                  ),
-                ),
-                RPadding(
-                  padding: const EdgeInsets.only(top: 56, bottom: 32),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 20.r)),
-                      onPressed: () {
-                        onLoginClick();
-                      },
-                      child: Text(
-                        "Login",
-                        style: theme.textTheme.labelLarge!.copyWith(
-                            fontSize: 20.sp,
-                            color: AppThemes.lightOnPrimaryColor),
-                      )),
-                ),
-                InkWell(
-                  hoverColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, DefinedRoutes.signUpScreenRouteName);
-                  },
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    "Don’t have an account? Create Account",
-                    style:
-                        theme.textTheme.labelMedium!.copyWith(fontSize: 14.sp),
                   ),
                 ),
               ],
@@ -134,15 +138,14 @@ class _LogInScreenState extends BaseViewStatefulWidget<LogInScreen> {
       ),
     );
   }
+
   void onLoginClick() {
     FocusManager.instance.primaryFocus?.unfocus();
-    if(formKey.currentState!.validate() == true){
-
-    }
+    if (formKey.currentState!.validate() == true) {}
     Navigator.pushNamedAndRemoveUntil(
       context,
       DefinedRoutes.homeScreenRouteName,
-          (route) => false,
+      (route) => false,
     );
   }
 }
