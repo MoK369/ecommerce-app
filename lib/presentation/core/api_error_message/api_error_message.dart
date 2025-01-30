@@ -12,7 +12,7 @@ class ApiErrorMessage {
       case HttpException():
         return "Couldn't find the source 😱";
       case FormatException():
-        return "Bad response format 👎";
+        return "Bad request format 👎";
       case DioException():
         switch (exception.type) {
           case DioExceptionType.connectionTimeout:
@@ -24,7 +24,7 @@ class ApiErrorMessage {
           case DioExceptionType.badCertificate:
             return "The certificate provided by the server is not valid 📑";
           case DioExceptionType.badResponse:
-            return "Bad response format 👎";
+            return "Bad request format 👎";
           case DioExceptionType.cancel:
             return "Request to server was cancelled ✖";
           case DioExceptionType.connectionError:

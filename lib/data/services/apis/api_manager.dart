@@ -15,7 +15,7 @@ import 'package:injectable/injectable.dart';
 @singleton
 class ApiManager {
   final Dio _dio = Dio();
-  static const String baseUrl = "ecommerce.routemisr.com";
+  static const String baseUrl = "https://ecommerce.routemisr.com";
   ApiManager() {
     _dio.interceptors.add(LogInterceptor(
       requestBody: true,
@@ -28,20 +28,31 @@ class ApiManager {
 
   Future<ApiResult<List<CategoryDataDto>>> getAllCategories() async {
     try {
-      Uri url = Uri.https(baseUrl, EndPoints.allCategoriesEndPoint);
-      var response = await _dio.getUri(url);
+      //Uri url = Uri.https(baseUrl, EndPoints.allCategoriesEndPoint);
+      var response = await _dio.get(baseUrl + EndPoints.allCategoriesEndPoint);
       if (response.statusCode?.isSuccessHttpCall() ?? false) {
         CategoriesModelDto categoriesResponse =
             CategoriesModelDto.fromJson(response.data);
         return Success(data: categoriesResponse.data ?? []);
       } else {
-        ErrorModel errorResponse = ErrorModel.fromJson(response.data);
+        /* I did this because when a server error happens dio package automatically return DioException.
+         preventing try block from completing the its body. */
+        return ServerError(
+            serverErrorException: ServerErrorException(
+                statusMsg: "", message: "Shouldn't Come Here 🤔"));
+      }
+    } on DioException catch (e) {
+      try {
+        ErrorModel errorResponse = ErrorModel.fromJson(e.response?.data);
         return ServerError(
             serverErrorException: ServerErrorException(
                 statusMsg: errorResponse.statusMsg ?? "",
                 message:
                     errorResponse.errorMessage ?? "Something Went Wrong 🤔"));
+      } catch (e) {
+        debugPrint("Can't Be to Error Data Model");
       }
+      return CodeError(exception: e);
     } on Exception catch (e) {
       return CodeError(exception: e);
     }
@@ -49,19 +60,29 @@ class ApiManager {
 
   Future<ApiResult<List<BrandDataDto>>> getAllBrands() async {
     try {
-      Uri url = Uri.https(baseUrl, EndPoints.allBrandsEndPoint);
-      var response = await _dio.getUri(url);
+      var response = await _dio.get(baseUrl + EndPoints.allBrandsEndPoint);
       if (response.statusCode?.isSuccessHttpCall() ?? false) {
         BrandsModelDto brandsResponse = BrandsModelDto.fromJson(response.data);
         return Success(data: brandsResponse.data ?? []);
       } else {
-        ErrorModel errorResponse = ErrorModel.fromJson(response.data);
+        /* I did this because when a server error happens dio package automatically return DioException.
+         preventing try block from completing the its body. */
+        return ServerError(
+            serverErrorException: ServerErrorException(
+                statusMsg: "", message: "Shouldn't Come Here 🤔"));
+      }
+    } on DioException catch (e) {
+      try {
+        ErrorModel errorResponse = ErrorModel.fromJson(e.response?.data);
         return ServerError(
             serverErrorException: ServerErrorException(
                 statusMsg: errorResponse.statusMsg ?? "",
                 message:
                     errorResponse.errorMessage ?? "Something Went Wrong 🤔"));
+      } catch (e) {
+        debugPrint("Can't Be to Error Data Model");
       }
+      return CodeError(exception: e);
     } on Exception catch (e) {
       return CodeError(exception: e);
     }
@@ -70,21 +91,30 @@ class ApiManager {
   Future<ApiResult<List<SubCategoryDataDto>>> getAllSubcategories(
       String categoryId) async {
     try {
-      Uri url =
-          Uri.https(baseUrl, EndPoints.getSubcategoriesEndPoint(categoryId));
-      var response = await _dio.getUri(url);
+      var response = await _dio.get(baseUrl + EndPoints.getSubcategoriesEndPoint(categoryId));
       if (response.statusCode?.isSuccessHttpCall() ?? false) {
         SubcategoriesModelDto subcategoriesResponse =
             SubcategoriesModelDto.fromJson(response.data);
         return Success(data: subcategoriesResponse.data ?? []);
       } else {
-        ErrorModel errorResponse = ErrorModel.fromJson(response.data);
+        /* I did this because when a server error happens dio package automatically return DioException.
+         preventing try block from completing the its body. */
+        return ServerError(
+            serverErrorException: ServerErrorException(
+                statusMsg: "", message: "Shouldn't Come Here 🤔"));
+      }
+    } on DioException catch (e) {
+      try {
+        ErrorModel errorResponse = ErrorModel.fromJson(e.response?.data);
         return ServerError(
             serverErrorException: ServerErrorException(
                 statusMsg: errorResponse.statusMsg ?? "",
                 message:
                     errorResponse.errorMessage ?? "Something Went Wrong 🤔"));
+      } catch (e) {
+        debugPrint("Can't Be to Error Data Model");
       }
+      return CodeError(exception: e);
     } on Exception catch (e) {
       return CodeError(exception: e);
     }
@@ -93,27 +123,34 @@ class ApiManager {
   Future<ApiResult<List<ProductDataDto>>> getProducts(
       {String? categoryId, String? subcategoryId, String? brandId}) async {
     try {
-      Uri url = Uri.https(
-          baseUrl,
-          EndPoints.productsEndPoint,
-          _getProductsApiQueryParameters(
+      var response = await _dio.get(baseUrl + EndPoints.productsEndPoint,
+          queryParameters: _getProductsApiQueryParameters(
               categoryId: categoryId,
               subcategoryId: subcategoryId,
               brandId: brandId));
-
-      var response = await _dio.getUri(url);
       if (response.statusCode?.isSuccessHttpCall() ?? false) {
         ProductsModelDto productsResponse =
             ProductsModelDto.fromJson(response.data);
         return Success(data: productsResponse.data ?? []);
       } else {
-        ErrorModel errorResponse = ErrorModel.fromJson(response.data);
+        /* I did this because when a server error happens dio package automatically return DioException.
+         preventing try block from completing the its body. */
+        return ServerError(
+            serverErrorException: ServerErrorException(
+                statusMsg: "", message: "Shouldn't Come Here 🤔"));
+      }
+    } on DioException catch (e) {
+      try {
+        ErrorModel errorResponse = ErrorModel.fromJson(e.response?.data);
         return ServerError(
             serverErrorException: ServerErrorException(
                 statusMsg: errorResponse.statusMsg ?? "",
                 message:
                     errorResponse.errorMessage ?? "Something Went Wrong 🤔"));
+      } catch (e) {
+        debugPrint("Can't Be to Error Data Model");
       }
+      return CodeError(exception: e);
     } on Exception catch (e) {
       return CodeError(exception: e);
     }
@@ -139,20 +176,29 @@ class ApiManager {
   Future<ApiResult<AuthenticationDataModelDto>> signIn(
       {required SignInParamsDataModel signInParams}) async {
     try {
-      var response = await _dio.post(baseUrl + EndPoints.signInEndPoint,
+      Response response = await _dio.post(baseUrl + EndPoints.signInEndPoint,
           data: signInParams.toJson());
       if (response.statusCode?.isSuccessHttpCall() ?? false) {
         AuthenticationDataModelDto authenticationResponse =
             AuthenticationDataModelDto.fromJson(response.data);
         return Success(data: authenticationResponse);
       } else {
-        ErrorModel errorResponse = ErrorModel.fromJson(response.data);
+        return ServerError(
+            serverErrorException: ServerErrorException(
+                statusMsg: "", message: "Something Went Wrong 🤔"));
+      }
+    } on DioException catch (e) {
+      try {
+        ErrorModel errorResponse = ErrorModel.fromJson(e.response?.data);
         return ServerError(
             serverErrorException: ServerErrorException(
                 statusMsg: errorResponse.statusMsg ?? "",
                 message:
                     errorResponse.errorMessage ?? "Something Went Wrong 🤔"));
+      } catch (e) {
+        debugPrint("Can't Be to Error Data Model");
       }
+      return CodeError(exception: e);
     } on Exception catch (e) {
       return CodeError(exception: e);
     }
