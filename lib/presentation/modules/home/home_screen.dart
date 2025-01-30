@@ -1,4 +1,5 @@
 import 'package:ecommerce/di.dart';
+import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/categories_page.dart';
 import 'package:ecommerce/presentation/modules/home/pages/favorite_page/favorite_page.dart';
@@ -12,7 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final AuthenticationDataModel signInData;
+  const HomeScreen({super.key,required this.signInData});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

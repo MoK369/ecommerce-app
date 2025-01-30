@@ -39,7 +39,7 @@ class AppThemes {
             borderSide: const BorderSide(color: lightOnPrimaryColor),
             borderRadius: BorderRadius.circular(25)),
         border: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.redAccent, width: 1.3),
+            borderSide: const BorderSide(color: Colors.redAccent, width: 2),
             borderRadius: BorderRadius.circular(15))),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

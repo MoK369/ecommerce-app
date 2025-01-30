@@ -1,3 +1,4 @@
+import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
 import 'package:ecommerce/domain/models/products/products_model.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/modules/authentication/screens/sign_in_screen.dart';
@@ -13,7 +14,9 @@ class RouteGenerator {
     switch (settings.name) {
       case DefinedRoutes.homeScreenRouteName:
         return MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => HomeScreen(
+            signInData: (args as AuthenticationDataModel),
+          ),
         );
       case DefinedRoutes.logInScreenRouteName:
         return MaterialPageRoute(
