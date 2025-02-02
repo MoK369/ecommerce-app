@@ -25,15 +25,19 @@ This e-commerce application is designed to provide users with a seamless and enj
 7. Search:
   - Users can search for products using keywords.
 
-## Getting Started
+## Pictures
 
-This project is a starting point for a Flutter application.
+![WhatsApp Image 2025-02-02 at 14 49 29](https://github.com/user-attachments/assets/1450aec4-1b9b-4051-84cf-c0debd7ce826)
 
-A few resources to get you started if this is your first Flutter project:
+![WhatsApp Image 2025-02-02 at 14 49 29 (1)](https://github.com/user-attachments/assets/aa99ba26-b4f5-40f4-b30c-6db26f5793a8)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![WhatsApp Image 2025-02-02 at 14 49 30](https://github.com/user-attachments/assets/6f70bb35-052e-423c-8c1a-9bca44da32b7)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![WhatsApp Image 2025-02-02 at 14 49 30 (1)](https://github.com/user-attachments/assets/4c68b8b0-863f-42ac-9fe2-7286de04c278)
+
+![WhatsApp Image 2025-02-02 at 14 49 30 (2)](https://github.com/user-attachments/assets/4583be5f-adf6-4b28-9212-6fec0e9d886d)
+
+![WhatsApp Image 2025-02-02 at 14 49 30 (3)](https://github.com/user-attachments/assets/43f3a489-80d1-43e9-a6b2-8b9aeff1bfcb)
+
+
+
