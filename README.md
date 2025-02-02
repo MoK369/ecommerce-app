@@ -25,6 +25,13 @@ This e-commerce application is designed to provide users with a seamless and enj
 7. Search:
   - Users can search for products using keywords.
 
+## Things we learned:
+  - We mainly here focused on Clean Architecture and implementing it in our project.
+  - Concept of Sealed Classes.
+  - Using ScreenUtil Package.
+  - Using Injectable and Get It packages.
+  - We knew here a new widget called CustomScrollView.
+
 ## Pictures
 
 ![WhatsApp Image 2025-02-02 at 14 49 29](https://github.com/user-attachments/assets/1450aec4-1b9b-4051-84cf-c0debd7ce826)
