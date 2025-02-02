@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   final AuthenticationDataModel signInData;
-  const HomeScreen({super.key,required this.signInData});
+  const HomeScreen({super.key, required this.signInData});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -32,10 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     loadHomeScreenData();
   }
-  void loadHomeScreenData(){
+
+  void loadHomeScreenData() {
     categoriesViewModel.loadCategories();
     brandsViewModel.loadBrands();
   }
+
   final List<Widget> pages = [
     HomePage(),
     CategoriesPage(),
@@ -54,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           lastPressed = DateTime.now();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Press back again to exit"),
-            margin: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             duration: Duration(seconds: 2),
           ));
           return;

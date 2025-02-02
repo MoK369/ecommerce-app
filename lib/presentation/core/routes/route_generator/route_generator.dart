@@ -43,6 +43,23 @@ class RouteGenerator {
     }
   }
 
+  static List<Route<dynamic>> generateInitialRoute(
+      String initialRoute, AuthenticationDataModel? userInfoData) {
+    if (initialRoute == DefinedRoutes.homeScreenRouteName) {
+      return [
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(signInData: userInfoData!),
+        )
+      ];
+    } else {
+      return [
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        )
+      ];
+    }
+  }
+
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(
       builder: (context) {

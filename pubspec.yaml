@@ -68,6 +68,8 @@ dependencies:
   lottie: 3.2.0
   # refresh Indicator
   custom_refresh_indicator: ^4.0.1
+  # secure storage
+  flutter_secure_storage: ^9.2.4
 
 
 dev_dependencies:
