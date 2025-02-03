@@ -14,6 +14,7 @@ Future<void> main() async {
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   configureDependencies();
   await ScreenUtil.ensureScreenSize();
+  AppLocalStorage.initFlutterSecureStorage();
   userInfoData = await AppLocalStorage.getUserInfo();
   runApp(const MyApp());
 }

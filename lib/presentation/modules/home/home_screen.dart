@@ -1,5 +1,7 @@
 import 'package:ecommerce/di.dart';
 import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
+import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
+import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/categories_page.dart';
 import 'package:ecommerce/presentation/modules/home/pages/favorite_page/favorite_page.dart';
@@ -11,6 +13,7 @@ import 'package:ecommerce/presentation/modules/home/widgets/home_screen_app_bar.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
   final AuthenticationDataModel signInData;
@@ -20,7 +23,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends BaseViewStatefulWidget<HomeScreen> {
   int selectedBarItem = 0;
   PageController pageController = PageController(initialPage: 0);
   CategoriesViewModel categoriesViewModel = getIt.get<CategoriesViewModel>();
@@ -33,19 +36,47 @@ class _HomeScreenState extends State<HomeScreen> {
     loadHomeScreenData();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showSuccessfulLogin();
+  }
+
+  void showSuccessfulLogin() {
+    if (widget.signInData.message == "success") {
+      showAlertDialog(
+          titleWidget: Text(
+        "Signed In Successfully!",
+        style: theme.textTheme.labelMedium!
+            .copyWith(color: AppThemes.lightOnPrimaryColor, fontSize: 18.sp),
+      ));
+    }
+  }
+
   void loadHomeScreenData() {
     categoriesViewModel.loadCategories();
     brandsViewModel.loadBrands();
   }
 
   final List<Widget> pages = [
-    HomePage(),
-    CategoriesPage(),
-    FavoritePage(),
-    ProfilePage(),
+    const HomePage(),
+    const CategoriesPage(),
+    const FavoritePage(),
+    const ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance. addPostFrameCallback(
+      (timeStamp) {
+        Future.delayed(
+          const Duration(seconds: 4),
+          () {
+            if (mounted) return;
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {

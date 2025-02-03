@@ -45,12 +45,14 @@ class _SignInScreenState extends BaseViewStatefulWidget<SignInScreen> {
                   loadingMessage: "Loading",
                 ));
               case SignInSuccessState():
+                Navigator.pop(context);
                 Navigator.pushNamedAndRemoveUntil(context,
                     DefinedRoutes.homeScreenRouteName, (route) => false,
                     arguments: signInState.authenticationDataModel);
               case SignInErrorState():
                 Navigator.pop(context);
                 showAlertDialog(
+                  showOkButton: true,
                     titleWidget:
                         ErrorStateWidget(exception: signInState.exception));
             }
@@ -179,32 +181,5 @@ class _SignInScreenState extends BaseViewStatefulWidget<SignInScreen> {
           email: emailFieldController.text,
           password: passwordFieldController.text));
     }
-  }
-
-  void showAlertDialog({required Widget titleWidget}) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: titleWidget,
-          actions: [
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    surfaceTintColor: Colors.transparent,
-                    backgroundColor: AppThemes.lightOnPrimaryColor,
-                    padding: EdgeInsets.symmetric(vertical: 20.r)),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "OK",
-                  style: theme.textTheme.labelMedium!.copyWith(fontSize: 18.sp),
-                ))
-          ],
-        );
-      },
-    );
   }
 }

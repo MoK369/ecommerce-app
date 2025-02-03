@@ -14,11 +14,12 @@ class LoadingStateWidget extends BaseViewStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CircularProgressIndicator(),
+          SizedBox(height: 12.h,),
           if (loadingMessage != null)
             Text(
               loadingMessage!,
               style: theme.textTheme.labelMedium!.copyWith(
-                  color: AppThemes.lightOnPrimaryColor, fontSize: 14.sp),
+                  color: AppThemes.lightOnPrimaryColor, fontSize: 16.sp),
             ),
         ],
       ),

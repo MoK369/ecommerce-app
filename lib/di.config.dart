@@ -43,10 +43,13 @@ import 'domain/use_cases/categories/get_most_common_categories_use_case.dart'
     as _i82;
 import 'domain/use_cases/products/get_products_use_case.dart' as _i114;
 import 'domain/use_cases/sign_in/sign_in_use_case.dart' as _i452;
+import 'domain/use_cases/sign_up/sign_up_use_case.dart' as _i1010;
 import 'domain/use_cases/subcategories/get_subcategories_use_case.dart'
     as _i816;
 import 'presentation/modules/authentication/manager/sign_in_view_model.dart'
     as _i1053;
+import 'presentation/modules/authentication/manager/sign_up_view_model.dart'
+    as _i362;
 import 'presentation/modules/home/manager/categories_view_model.dart' as _i256;
 import 'presentation/modules/home/pages/categories_page/manager/subcategories_view_model.dart'
     as _i970;
@@ -94,6 +97,8 @@ extension GetItInjectableX on _i174.GetIt {
         getProductsUseCase: gh<_i114.GetProductsUseCase>()));
     gh.factory<_i452.SignInUseCase>(() => _i452.SignInUseCase(
         authenticationRepository: gh<_i996.AuthenticationRepository>()));
+    gh.factory<_i1010.SignUpUseCase>(() => _i1010.SignUpUseCase(
+        authenticationRepository: gh<_i996.AuthenticationRepository>()));
     gh.factory<_i785.CategoriesRepository>(() =>
         _i321.CategoriesRepositoryImp(gh<_i332.CategoriesRemoteDataSource>()));
     gh.factory<_i1053.SignInViewModel>(
@@ -104,6 +109,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i816.GetSubcategoriesUseCase(gh<_i785.CategoriesRepository>()));
     gh.factory<_i970.SubcategoriesViewModel>(() => _i970.SubcategoriesViewModel(
         getSubcategoriesUseCase: gh<_i816.GetSubcategoriesUseCase>()));
+    gh.factory<_i362.SignUpViewModel>(
+        () => _i362.SignUpViewModel(signUpUseCase: gh<_i1010.SignUpUseCase>()));
     gh.singleton<_i256.CategoriesViewModel>(() =>
         _i256.CategoriesViewModel(gh<_i82.GetMostCommonCategoriesUseCase>()));
     return this;
