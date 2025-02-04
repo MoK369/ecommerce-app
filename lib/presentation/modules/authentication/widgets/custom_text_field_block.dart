@@ -53,7 +53,7 @@ class _CustomTextFieldBlockState extends BaseViewStatefulWidget<CustomTextFieldB
             decoration: InputDecoration(
               hintText: widget.hintText,
               errorStyle: theme.inputDecorationTheme.errorStyle!
-                  .copyWith(fontSize: 12.sp),
+                  .copyWith(fontSize: 14.sp),
               suffixIcon: !widget.showPasswordVisibilityButton
                   ? null
                   : IconButton(

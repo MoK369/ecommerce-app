@@ -10,7 +10,7 @@ class AuthenticationDataModel {
   });
 
   String? message;
-  User? user;
+  UserData? user;
   String? token;
 }
 
@@ -18,8 +18,8 @@ class AuthenticationDataModel {
 /// email : "samy1@gmail.com"
 /// role : "user"
 
-class User {
-  User({
+class UserData {
+  UserData({
     this.name,
     this.email,
     this.role,

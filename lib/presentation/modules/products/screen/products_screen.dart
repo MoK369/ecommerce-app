@@ -48,15 +48,14 @@ class _ProductsScreenState extends BaseViewStatefulWidget<ProductsScreen> {
                 case ProductsSuccessState():
                   var products = state.products;
                   return products.isEmpty
-                      ? Expanded(
-                          child: Center(
-                          child: Text(
-                            "No Products",
-                            style: theme.textTheme.labelMedium!.copyWith(
-                                color: AppThemes.lightOnPrimaryColor,
-                                fontSize: 20.sp),
-                          ),
-                        ))
+                      ? Center(
+                      child: Text(
+                        "No Products",
+                        style: theme.textTheme.labelMedium!.copyWith(
+                            color: AppThemes.lightOnPrimaryColor,
+                            fontSize: 20.sp),
+                      ),
+                                              )
                       : GridView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           itemCount: products.length,

@@ -1,4 +1,5 @@
 import 'package:ecommerce/presentation/core/bases/base_view_stateless_widget.dart';
+import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,10 +14,12 @@ class LoadingStateWidget extends BaseViewStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CircularProgressIndicator(),
+          SizedBox(height: 12.h,),
           if (loadingMessage != null)
             Text(
               loadingMessage!,
-              style: theme.textTheme.labelMedium!.copyWith(fontSize: 14.sp),
+              style: theme.textTheme.labelMedium!.copyWith(
+                  color: AppThemes.lightOnPrimaryColor, fontSize: 16.sp),
             ),
         ],
       ),

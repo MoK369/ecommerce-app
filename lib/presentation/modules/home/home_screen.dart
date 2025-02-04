@@ -1,4 +1,7 @@
 import 'package:ecommerce/di.dart';
+import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
+import 'package:ecommerce/presentation/core/bases/base_view_stateful_widget.dart';
+import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
 import 'package:ecommerce/presentation/modules/home/pages/categories_page/categories_page.dart';
 import 'package:ecommerce/presentation/modules/home/pages/favorite_page/favorite_page.dart';
@@ -10,15 +13,17 @@ import 'package:ecommerce/presentation/modules/home/widgets/home_screen_app_bar.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final AuthenticationDataModel signInData;
+  const HomeScreen({super.key, required this.signInData});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends BaseViewStatefulWidget<HomeScreen> {
   int selectedBarItem = 0;
   PageController pageController = PageController(initialPage: 0);
   CategoriesViewModel categoriesViewModel = getIt.get<CategoriesViewModel>();
@@ -30,15 +35,39 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     loadHomeScreenData();
   }
-  void loadHomeScreenData(){
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showSuccessfulLogin();
+  }
+
+  void showSuccessfulLogin() {
+    if (widget.signInData.message == "success") {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          showAlertDialog(
+            showOkButton: true,
+              titleWidget: Text(
+            "Signed In Successfully!",
+            style: theme.textTheme.labelMedium!.copyWith(
+                color: AppThemes.lightOnPrimaryColor, fontSize: 18.sp),
+          ));
+        },
+      );
+    }
+  }
+
+  void loadHomeScreenData() {
     categoriesViewModel.loadCategories();
     brandsViewModel.loadBrands();
   }
+
   final List<Widget> pages = [
-    HomePage(),
-    CategoriesPage(),
-    FavoritePage(),
-    ProfilePage(),
+    const HomePage(),
+    const CategoriesPage(),
+    const FavoritePage(),
+    const ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -52,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
           lastPressed = DateTime.now();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Press back again to exit"),
-            margin: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             duration: Duration(seconds: 2),
           ));
           return;
