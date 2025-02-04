@@ -44,12 +44,17 @@ class _HomeScreenState extends BaseViewStatefulWidget<HomeScreen> {
 
   void showSuccessfulLogin() {
     if (widget.signInData.message == "success") {
-      showAlertDialog(
-          titleWidget: Text(
-        "Signed In Successfully!",
-        style: theme.textTheme.labelMedium!
-            .copyWith(color: AppThemes.lightOnPrimaryColor, fontSize: 18.sp),
-      ));
+      WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          showAlertDialog(
+            showOkButton: true,
+              titleWidget: Text(
+            "Signed In Successfully!",
+            style: theme.textTheme.labelMedium!.copyWith(
+                color: AppThemes.lightOnPrimaryColor, fontSize: 18.sp),
+          ));
+        },
+      );
     }
   }
 
@@ -66,17 +71,6 @@ class _HomeScreenState extends BaseViewStatefulWidget<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance. addPostFrameCallback(
-      (timeStamp) {
-        Future.delayed(
-          const Duration(seconds: 4),
-          () {
-            if (mounted) return;
-            Navigator.pop(context);
-          },
-        );
-      },
-    );
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
