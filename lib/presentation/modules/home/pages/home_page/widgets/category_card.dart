@@ -14,6 +14,8 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onTap: () {
         Navigator.pushNamed(context, DefinedRoutes.productsScreenRouteName,
             arguments: ProductsScreenParams(categoryId: categoryItem.id ?? ""));
