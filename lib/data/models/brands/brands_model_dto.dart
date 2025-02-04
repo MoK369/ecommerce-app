@@ -84,7 +84,7 @@ class BrandDataDto {
     return map;
   }
 
-  BrandData convertTotBrandsData() {
+  BrandData convertTotBrandData() {
     return BrandData(
         id: id,
         name: name,

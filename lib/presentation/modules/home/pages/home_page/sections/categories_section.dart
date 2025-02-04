@@ -1,4 +1,4 @@
-import 'package:ecommerce/domain/api_error_message/api_error_message.dart';
+import 'package:ecommerce/presentation/core/api_error_message/api_error_message.dart';
 import 'package:ecommerce/presentation/core/widgets/loading_state_widget.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_state.dart';
 import 'package:ecommerce/presentation/modules/home/manager/categories_view_model.dart';
@@ -22,15 +22,15 @@ class CategoriesSection extends StatelessWidget {
             builder: (context, state) {
               switch (state) {
                 case CategoriesLoadingState():
-                  return  const LoadingStateWidget();
+                  return const LoadingStateWidget();
                 case CategoriesSuccessState():
                   var categories = state.listOfCategoryData;
                   return GridView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return CategoryCard(
-                          categoryImage: categories[index].image ?? "",
-                          categoryTitle: categories[index].name ?? "");
+                        categoryItem: categories[index],
+                      );
                     },
                     itemCount: categories.length,
                     gridDelegate:

@@ -1,16 +1,21 @@
+import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
 import 'package:ecommerce/presentation/core/routes/route_generator/route_generator.dart';
+import 'package:ecommerce/presentation/core/storage/app_local_storage.dart';
 import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'di.dart';
 
+AuthenticationDataModel? userInfoData;
 Future<void> main() async {
   FlutterNativeSplash.preserve(
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   configureDependencies();
   await ScreenUtil.ensureScreenSize();
+  AppLocalStorage.initFlutterSecureStorage();
+  userInfoData = await AppLocalStorage.getUserInfo();
   runApp(const MyApp());
 }
 
@@ -45,7 +50,11 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'E-commerce Application',
             onGenerateRoute: RouteGenerator.generateRoute,
-            initialRoute: DefinedRoutes.logInScreenRouteName,
+            onGenerateInitialRoutes: (initialRoute) =>
+                RouteGenerator.generateInitialRoute(initialRoute, userInfoData),
+            initialRoute: userInfoData == null
+                ? DefinedRoutes.logInScreenRouteName
+                : DefinedRoutes.homeScreenRouteName,
           ),
         );
       },

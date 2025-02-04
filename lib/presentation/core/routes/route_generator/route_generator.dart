@@ -1,8 +1,11 @@
+import 'package:ecommerce/domain/models/authentication/authentication_data_model.dart';
+import 'package:ecommerce/domain/models/products/products_model.dart';
 import 'package:ecommerce/presentation/core/routes/defined_routes/defined_routes.dart';
-import 'package:ecommerce/presentation/modules/authentication/screens/log_in_screen.dart';
+import 'package:ecommerce/presentation/modules/authentication/screens/sign_in_screen.dart';
 import 'package:ecommerce/presentation/modules/authentication/screens/sign_up_screen.dart';
 import 'package:ecommerce/presentation/modules/home/home_screen.dart';
-import 'package:ecommerce/presentation/modules/products/screens/product_details_screen.dart';
+import 'package:ecommerce/presentation/modules/product_details/screens/product_details_screen.dart';
+import 'package:ecommerce/presentation/modules/products/screen/products_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -11,11 +14,13 @@ class RouteGenerator {
     switch (settings.name) {
       case DefinedRoutes.homeScreenRouteName:
         return MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => HomeScreen(
+            signInData: (args as AuthenticationDataModel),
+          ),
         );
       case DefinedRoutes.logInScreenRouteName:
         return MaterialPageRoute(
-          builder: (context) => const LogInScreen(),
+          builder: (context) => const SignInScreen(),
         );
       case DefinedRoutes.signUpScreenRouteName:
         return MaterialPageRoute(
@@ -23,10 +28,35 @@ class RouteGenerator {
         );
       case DefinedRoutes.productDetailsScreenRouteName:
         return MaterialPageRoute(
-          builder: (context) => const ProductDetailsScreen(),
+          builder: (context) => ProductDetailsScreen(
+            productItem: args as ProductData,
+          ),
+        );
+      case DefinedRoutes.productsScreenRouteName:
+        return MaterialPageRoute(
+          builder: (context) => ProductsScreen(
+            params: args as ProductsScreenParams,
+          ),
         );
       default:
         return _errorRoute();
+    }
+  }
+
+  static List<Route<dynamic>> generateInitialRoute(
+      String initialRoute, AuthenticationDataModel? userInfoData) {
+    if (initialRoute == DefinedRoutes.homeScreenRouteName) {
+      return [
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(signInData: userInfoData!),
+        )
+      ];
+    } else {
+      return [
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        )
+      ];
     }
   }
 

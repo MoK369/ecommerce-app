@@ -58,6 +58,18 @@ dependencies:
   injectable: ^2.5.0
   # add get_it
   get_it: ^8.0.0
+  # animations
+  animate_do: ^3.3.4
+  # page indicator
+  smooth_page_indicator: ^1.2.0+3
+  # read more button
+  readmore: ^3.0.0
+  # Lottie Animation
+  lottie: 3.2.0
+  # refresh Indicator
+  custom_refresh_indicator: ^4.0.1
+  # secure storage
+  flutter_secure_storage: ^9.2.4
 
 
 dev_dependencies:
@@ -92,6 +104,7 @@ flutter:
   - assets/
   - assets/images/
   - assets/icons/
+  - assets/animations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

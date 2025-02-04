@@ -1,22 +1,25 @@
+import 'package:ecommerce/presentation/core/bases/base_view_stateless_widget.dart';
+import 'package:ecommerce/presentation/core/themes/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoadingStateWidget extends StatelessWidget {
+class LoadingStateWidget extends BaseViewStatelessWidget {
   final String? loadingMessage;
   const LoadingStateWidget({super.key, this.loadingMessage});
 
   @override
-  Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+  Widget customBuild(BuildContext context, ThemeData theme) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CircularProgressIndicator(),
+          SizedBox(height: 12.h,),
           if (loadingMessage != null)
             Text(
               loadingMessage!,
-              style: theme.textTheme.labelMedium!.copyWith(fontSize: 14.sp),
+              style: theme.textTheme.labelMedium!.copyWith(
+                  color: AppThemes.lightOnPrimaryColor, fontSize: 16.sp),
             ),
         ],
       ),

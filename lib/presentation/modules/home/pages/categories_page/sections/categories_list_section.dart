@@ -5,7 +5,13 @@ import 'package:flutter/material.dart';
 
 class CategoriesListSection extends StatefulWidget {
   final List<CategoryData> categories;
-  const CategoriesListSection({super.key, required this.categories});
+  final int selectedCategoryIndex;
+  final void Function(CategoryData category) onCategorySelection;
+  const CategoriesListSection(
+      {super.key,
+      required this.categories,
+      required this.onCategorySelection,
+      this.selectedCategoryIndex = 0});
 
   @override
   State<CategoriesListSection> createState() => _CategoriesListSectionState();
@@ -13,7 +19,22 @@ class CategoriesListSection extends StatefulWidget {
 
 class _CategoriesListSectionState extends State<CategoriesListSection> {
   // Index of the currently selected category
-  int selectedIndex = 0;
+  late int selectedIndex;
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.selectedCategoryIndex;
+  }
+
+  // @override
+  // void didUpdateWidget(covariant CategoriesListSection oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //
+  //   if (oldWidget.selectedIndex != widget.selectedIndex) {
+  //     debugPrint("didUpdateWidget categoryList");
+  //     selectedIndex = widget.selectedIndex;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +46,8 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
             // set the border for only 3 sides
             top: BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor),
             left: BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor),
-            bottom: BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor)),
+            bottom:
+                BorderSide(width: 1.5, color: AppThemes.lightOnPrimaryColor)),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           bottomLeft: Radius.circular(10),
@@ -41,6 +63,7 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
         ),
         child: ListView.builder(
           itemCount: widget.categories.length,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           itemBuilder: (context, index) => CategoryItem(
               index,
               widget.categories[index].name ?? "",
@@ -53,8 +76,9 @@ class _CategoriesListSectionState extends State<CategoriesListSection> {
 
   // callback function to change the selected index
   onItemClick(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    //setState(() {
+    selectedIndex = index;
+    //});
+    widget.onCategorySelection(widget.categories[index]);
   }
 }
